@@ -1,0 +1,65 @@
+#!/usr/bin/php
+<?php
+/*
+╔-----------------------------------------------------------------------╗
+║                                                                       ║
+║ This file is part of the Shelix IDE.                                  ║
+║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+║                                                                       ║
+║ This program is free software: you can redistribute it and/or modify  ║
+║ it under the terms of the GNU General Public License as published by  ║
+║ the Free Software Foundation, either version 3 of the License, or     ║
+║ (at your option) any later version.                                   ║
+║                                                                       ║
+║ This program is distributed in the hope that it will be useful,       ║
+║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+║ GNU General Public License for more details.                          ║
+║                                                                       ║
+║ You should have received a copy of the GNU General Public License     ║
+║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+╚-----------------------------------------------------------------------╝*/
+
+/* Seconds to (STRING)HH:MM:SS -----------------*/
+function secToTimer($sec)
+{
+    return explode(" ", date("H:i:s.", $sec) . gettimeofday()["usec"])[0];
+}
+
+echo "\033[?25lChange clock style: Return\nReset timer: r\n";
+$time_start = microtime(true);
+$imode = 0;
+stream_set_blocking(STDIN, false);
+while (true) {
+    $now = (microtime(true) - $time_start);
+    $mode = stream_get_line(STDIN, 1, PHP_EOL);
+
+    if ($mode !== false) {
+        $imode++;
+    }
+    if ($mode === "r") {
+        echo "Reset\n";
+        $time_start = microtime(true);
+    }
+    switch ($imode) {
+        case 0:
+            echo "\r" . substr(secToTimer($now), 0, -3);
+            break;
+        case 1:
+            echo "\r" . secToTimer($now);
+            break;
+        case 2:
+            echo "\r" . secToTimer(microtime(true));
+            break;
+        case 3:
+            echo "\r" . substr(secToTimer(microtime(true)), 0, -7);
+            break;
+        case 4:
+            echo "\r" . substr(secToTimer(microtime(true)), 0, -10);
+            break;
+        default:
+            $imode = 0;
+            break;
+    }
+    usleep(41000);
+}

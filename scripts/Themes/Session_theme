@@ -1,0 +1,49 @@
+#!/usr/bin/php
+<?php
+/*
+╔-----------------------------------------------------------------------╗
+║                                                                       ║
+║ This file is part of the Shelix IDE.                                  ║
+║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+║                                                                       ║
+║ This program is free software: you can redistribute it and/or modify  ║
+║ it under the terms of the GNU General Public License as published by  ║
+║ the Free Software Foundation, either version 3 of the License, or     ║
+║ (at your option) any later version.                                   ║
+║                                                                       ║
+║ This program is distributed in the hope that it will be useful,       ║
+║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+║ GNU General Public License for more details.                          ║
+║                                                                       ║
+║ You should have received a copy of the GNU General Public License     ║
+║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+╚-----------------------------------------------------------------------╝*/
+
+/* 
+This program return primarly a simple array of values encoded in JSON
+Those values will de displayed as a list by Shelix.
+At selection, this current program will be run again, with the selection exposed
+as the first param in the command  line.
+
+This may allow to dispatch a wide range of params or actions, from a single file
+
+Beware, if two items in the list have the same values, the first only is taken
+*/
+
+
+// Dispatch the list of themes and dispatch at selection
+
+
+// ENV populated by shelix.sh
+$SHELIXPATH = getenv("SHELIXPATH");
+
+if (isset($argv[1])) {
+
+    $theme = "$SHELIXPATH/themes/$argv[1]";
+
+    system("tmux_theme '$theme' --session");
+} else {
+
+    echo json_encode(array_map('basename', glob("$SHELIXPATH/themes/*.json")));
+}

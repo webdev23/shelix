@@ -1,0 +1,5 @@
+#!/bin/bash
+
+pop 'echo "\033[7;5;1m Search in project files:\e[0m \c"; read search && unbuffer rg $search | less -R'
+
+

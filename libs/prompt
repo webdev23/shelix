@@ -1,0 +1,30 @@
+#!/bin/bash
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+
+# Are we in a popup?
+if [ -z "$TMUX_PANE" ]; then
+  tmux splitw -v "tmux display-popup -C ; tmux resizep -y 1 ; $1" 
+  # tmux send "$1" Enter
+  # "$1"
+else
+  tmux display-popup -h 3 -w 33% -E "$1"
+fi
+

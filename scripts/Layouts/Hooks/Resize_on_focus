@@ -1,0 +1,48 @@
+#!/bin/bash
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+# on_focus -x 50% -y 80% 
+# Check if a parameter is provided
+# We feed a 
+if [ $# -eq 0 ]; then
+echo "-x 50% -y 50%
+-x 100% -y 100% 
+-x 90% -y 100%
+-x 80% -y 100%
+-x 70% -y 100%
+-x 60% -y 100%
+-x 100%
+-x 90%
+-x 80%
+-x 70%
+-x 60%
+-x 50%
+-y 100%
+-y 90%
+-y 80%
+-y 70%
+-y 60%
+-y 50%" | jq -sR '[split("\n")[] | select(length > 0)]'  
+      # echo $(ls $SHELIXPATH/libs/layouts) | jq -Rc 'split(" ")'
+else
+  # "$@"
+  # "$SHELIXPATH"/libs/layouts/"$@"
+  tmux set-hook pane-focus-out[1] "run 'on_focus $@ -n shelix'"
+fi

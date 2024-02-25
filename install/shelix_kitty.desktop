@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=MyVim
+Exec=kitty --hold sh -c 'bash -c "shelix; bash"' -T "Run and ready"
+Terminal=false
+Icon=shelix
+Categories=Utility;TextEditor

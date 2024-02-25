@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Capture xset output
+xset_output=$(xset -q)
+
+# Extract Caps Lock, Num Lock, and Compose key status
+caps_lock_status=$(echo "$xset_output" | awk '/Caps Lock/{print $4}')
+num_lock_status=$(echo "$xset_output" | awk '/Num Lock/{print $8}')
+compose_status=$(echo "$xset_output" | awk '/Compose/{print $6}')
+
+[ "$caps_lock_status" == "on" ] && output_string+="CAPS "
+[ "$num_lock_status" == "on" ] && output_string+="NUM "
+[ "$compose_status" == "on" ] && output_string+="COMPOSE "
+
+echo -n "$output_string"

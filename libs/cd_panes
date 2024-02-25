@@ -1,0 +1,12 @@
+#!/bin/bash
+
+all=($(tmux list-panes -t 0 -F '#P'))
+
+notify "$(echo $SHELIXSESSIONDIR)"
+
+
+for index in "${!all[@]}"; do
+  # echo $index
+  tmux send-keys -t ":.$index" "cd $SHELIXSESSIONDIR" Enter
+done
+

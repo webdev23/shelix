@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Shelix editor
+GenericName=Shelix IDE
+Comment=Open with Shelix
+Terminal=true
+Exec=zsh -c 'cd /media/nvrm/dev/DEVS/SHELIX && ./shelix.sh %U; $SHELL'
+Icon=/media/nvrm/dev/DEVS/SHELIX/shelix.png
+Categories=Development
+NoDisplay=true
+MimeType=application/x-sh;application/x-shellscript;

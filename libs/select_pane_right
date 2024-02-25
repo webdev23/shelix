@@ -1,0 +1,67 @@
+#!/bin/bash
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+# This script dispatch the focus on multiple tmux sessions
+# Uncomment the display-messages for debugging
+# A session on the right must ends with _R in the session name 
+#                  left                 _L
+
+
+# Check if the pane is at the leftmost position
+if [ "$(tmux display-message -p '#{pane_left}')" -eq 0 ]; then
+    # Get the current session name
+    session=$(tmux display-message -p '#{session_name}')
+    # tmux display-message "leftmost $session"
+    # Check if the session name contains "_R" at the two characters
+    if [[ $session == *_R* ]]; then
+        # tmux display-message "Is _R session"
+        # We are in a _R session, jump to the central
+        wmctrl -a "Shelix - ${session::-2}"
+        # notify "oh wow"
+    fi
+
+    if [[ $session == *_L* ]]; then
+        # We are on the leftmost pane of the leftmost session 
+        # echo "Session name does contain '_L'."
+        : # null
+        # tmux display-message "So much on the left..."
+        # Implement cycle trough here
+    fi
+
+    if [[ $session != *_L* ]] && [[ $session != *_R* ]];then
+       # We are in the leftmost pane of a regular -not extended - session
+        # tmux display-message "This is not an extended session"
+        # We are in a _R session, jump to the central
+        # jump to a _L session
+        if tmux has-session -t "${session}_L" 2>/dev/null; then
+            # echo "Session ${session}_L exists"
+            # tmux display-message "Jumping to ${session}_L"
+            wmctrl -a "Shelix - ${session}_L"
+        else
+            : # null
+            # tmux display-message "No ${session}_L in sight"
+            # echo "Session does not exist"
+        fi
+    fi
+else
+    # as regular
+    # tmux display-message "Just jumping around"
+    tmux select-pane -L
+fi

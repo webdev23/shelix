@@ -1,0 +1,300 @@
+#!/bin/bash
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+# Apply themes to tmux, based on JSON files found on terminal.sexy
+
+# Use:
+
+# tmux_theme /path/to/theme.json --session
+# tmux_theme /path/to/theme.json --window
+# tmux_theme /path/to/theme.json --server
+
+#########
+# RESET #
+#########
+# for pane in $(tmux list-panes -F '#P'); do
+#   tmux select-pane -t ${pane} -P 'bg=default,fg=default'
+# done
+
+# Set default theme
+default_theme="$SHELIXPATH/themes/embers.dark.json"
+
+# Use provided theme file name or use default
+theme=${1:-$default_theme}
+
+if [ -n "$1" ]; then
+  theme="$theme"
+fi
+echo $theme
+
+# By default, apply theme to the session
+default_target="-g" 
+target=${2:-$default_target}
+
+
+###############################
+# Parse target to apply theme #
+###############################
+if [ $target == "--session" ] || [ $target == "-s" ];then
+  # notify "Theme target: SESSION"
+  echo "Target: session"
+  target="-s"
+fi
+
+if [ $target == "--window" ];then
+  # notify "Theme target: WINDOW" 1
+  echo "Target: window"
+  target="-w"
+fi
+
+if [ $target == "--server" ] || [ $target == "-g" ];then
+  echo "Target: server"  
+  target="-g"
+fi
+
+
+# Extracted colors
+a=$(cat "$theme" | jq -r '.color[0]')
+b=$(cat "$theme" | jq -r '.color[1]')
+c=$(cat "$theme" | jq -r '.color[2]')
+d=$(cat "$theme" | jq -r '.color[3]')
+e=$(cat "$theme" | jq -r '.color[4]')
+f=$(cat "$theme" | jq -r '.color[5]')
+g=$(cat "$theme" | jq -r '.color[6]')
+h=$(cat "$theme" | jq -r '.color[7]')
+i=$(cat "$theme" | jq -r '.color[8]')
+j=$(cat "$theme" | jq -r '.color[9]')
+k=$(cat "$theme" | jq -r '.color[10]')
+l=$(cat "$theme" | jq -r '.color[11]')
+m=$(cat "$theme" | jq -r '.color[12]')
+
+foreground=$(cat "$theme" | jq -r '.foreground')
+background=$(cat "$theme" | jq -r '.background')
+
+
+# background=$a # Nicer
+
+# Function to reduce luminance of a color
+dim() {
+  # Extract RGB values
+  r=$(echo $1 | cut -c 2-3)
+  g=$(echo $1 | cut -c 4-5)
+  b=$(echo $1 | cut -c 6-7)
+
+  # Calculate reduced luminance (50% reduction)
+  new_r=$(printf "%02x" $((16#${r} / 2)))
+  new_g=$(printf "%02x" $((16#${g} / 2)))
+  new_b=$(printf "%02x" $((16#${b} / 2)))
+
+  # Output the new color
+  echo "#${new_r}${new_g}${new_b}"
+}
+
+
+
+# Function to convert hexadecimal to decimal
+hex_to_dec() {
+    echo $((16#${1}))
+}
+
+# Function to calculate the opposite of a color (RGB format)
+opposite() {
+    local r=$(hex_to_dec ${1:1:2})
+    local g=$(hex_to_dec ${1:3:2})
+    local b=$(hex_to_dec ${1:5:2})
+
+    r=$((255 - r))
+    g=$((255 - g))
+    b=$((255 - b))
+
+    printf "%02X%02X%02X\n" $r $g $b
+}
+
+
+
+######################
+# Set a dimmer color #
+######################
+dim_bg=$(dim $background)
+dim_fg=$(dim $foreground)
+dim_c=$(dim $c)
+oppos_bg=$(opposite "$background")
+
+
+################
+# Test display #
+################
+
+for color in $a $b $c $d $e $f $g $h $i $j $k $l $m $background $foreground $dim_bg $dim_fg; do
+    r=$(printf "%d" 0x${color:1:2})
+    g=$(printf "%d" 0x${color:3:2})
+    b=$(printf "%d" 0x${color:5:2})
+
+    OUT+="\e[48;2;${r};${g};${b}m   \e[0m "
+done
+
+echo -e $OUT
+# notify "echo -e '$OUT'" 0.5 
+
+
+# Write colors in logs 
+echo "@@@ Theme $target $theme @@@" >> $SHELIXPATH/shelix.logs
+echo -e "$OUT" >> $SHELIXPATH/shelix.logs
+
+
+
+
+###################
+# Reset all panes #
+###################
+# for pane in $(tmux list-panes -F '#P'); do
+# tmux select-pane -t ${pane} -P "bg=terminal,fg=terminal"
+# done
+
+# tmux select-pane -t 0
+
+
+
+
+tmux set -g status-interval 3
+
+
+####################
+# Status bar style #
+####################
+# tmux set $target status "on"
+# tmux set $target status-style "bg=$a,fg=$foreground,none"
+# tmux set $target status-left-length "200"
+# tmux set $target status-right-length "200"
+# tmux set $target status-right "#[bg=$c,fg=$background] #(git_stat) #[bg=$d,fg=$background] #(cpu_usage)% #[bg=$e,fg=$background,dim] #(cpu_temp)° #[bg=$h,fg=$background] #(netspeed) #[bg=$c,fg=$background,bold] %H:%M "
+# tmux set $target status-left "#[bg=$c,fg=$background]  #S  "
+
+
+for session in $(tmux list-sessions -F "#{session_name}"); do
+  tmux set status "on"
+  tmux set status-style "bg=$a,fg=$foreground,none"
+  tmux set status-left-length "200"
+  tmux set status-right-length "200"
+  tmux set status-right "#[bg=$c,fg=$background] #(git_stat) #[bg=$d,fg=$background] #(cpu_usage)% #[bg=$e,fg=$background,dim] #(cpu_temp)° #[bg=$h,fg=$background] #(netspeed) #[bg=$c,fg=$background,bold] %H:%M "
+  tmux set status-left "#[bg=$c,fg=$background]  #S  "
+done
+
+
+#################
+# Popup styles #
+#################
+tmux set $target popup-style "bg=$background,fg=$foreground,bold"
+# tmux set $target popup-border-style "bg=blue,bold"
+# tmux set $target popup-border-lines heavy
+
+
+################
+# Menus style #
+###############
+tmux set $target menu-style "bg=$background,fg=$foreground"
+# tmux set $target menu-border-style "bg=blue,bold"
+# tmux set $target menu-border-lines heavy
+
+
+##########################
+# Messages in status bar #
+##########################
+tmux set $target message-style "fg=$background,bg=$m,blink,bold"
+tmux set $target message-command-style "fg=$foreground,bg=$background"
+
+
+##################
+# Text selection #
+##################
+tmux set $target mode-style "fg=$foreground,bg=$f"
+
+
+##################
+# Border (panes) #
+##################
+tmux set -g pane-border-status top
+#setw -g pane-border-format '[ ###{pane_index} #T #{pane_current_command} #{pane_current_path} ]'
+tmux setw -g pane-border-format '[ ###{pane_index} #{pane_title} ]'
+tmux set $target pane-border-status bottom
+tmux set $target pane-border-style "fg=$dim_c,bg=$dim_bg"
+tmux set $target pane-active-border-style "fg=$c,bg=$dim_bg,bold"
+tmux set $target pane-border-indicators "colour"
+
+
+#####################
+# Repaint all panes #
+#####################
+# for pane in $(tmux list-panes -F '#P'); do
+#   tmux select-pane -t ${pane} -P "bg=$dim_bg,fg=$dim_fg"
+# done
+
+# tmux select-pane -t 0
+
+
+
+# ================================================================= #
+# HOOKS are events in tmux
+# SEE man tmux /hooks
+
+######################
+# Pane Focus effect  #
+######################
+tmux set $target focus-events on
+tmux set-hook -g pane-focus-out[0] "select-pane -P 'bg=$dim_bg,fg=$dim_fg'"
+tmux set-hook -g pane-focus-in[0] "select-pane -P 'bg=$background,fg=$foreground'"
+
+#########################
+# Save layout positions #
+#########################
+# tmux set-hook -g window-linked[0] 'run-shell "save_layout"'
+# tmux set-hook -g session-changed[0] 'run-shell "save_layout"'
+
+#####################
+# Responsive layout #
+#####################
+tmux set-hook -g client-resized[0] 'run-shell "tmux resize-pane -t 0 -x 26"' # Lateral
+tmux set-hook -g client-resized[1] 'run-shell "tmux resize-pane -t 2 -y 6"'  # Bottom
+
+# -------------------------------------------------------------------- #
+
+
+################################
+# Repaint panes in all sessions#
+################################
+for pane in $(tmux list-panes -aF "#{pane_id}"); do
+  tmux select-pane -t ${pane} -P "bg=$dim_bg,fg=$dim_fg"
+done
+
+
+
+
+
+
+tmux select-pane -t 0
+
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+# That may be that place 
+# to deploy matching colors to your RGB devices
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+COLOR=$(echo "$c" | cut -c2-) # Remove the #
+openrgb -c $COLOR --noautoconnect > /dev/null
+ 
+

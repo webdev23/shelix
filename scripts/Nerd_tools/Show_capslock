@@ -1,0 +1,5 @@
+#!/bin/bash
+
+tmux split-window -vb "tmux resizep -y 1; watch -n 0.2 -t caps"
+
+

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+ID=$(wmctrl -l | awk '{ print $1 }' | tail -n1)
+
+M="_GTK_HIDE_TITLEBAR_WHEN_MAXIMIZED"
+
+xprop -id $ID -f $M 32c -set $M 0x0

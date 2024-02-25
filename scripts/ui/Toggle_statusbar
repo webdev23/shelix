@@ -1,0 +1,9 @@
+#!/bin/bash
+STATUSBAR=$(tmux display -p '#{status}')
+
+
+if [ $STATUSBAR == 'on' ];then
+  tmux setw status 'off'
+else
+  tmux setw status 'on'
+fi

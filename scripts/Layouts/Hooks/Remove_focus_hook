@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# That remove a hook that may have been set 
+# from a previously selected Layout
+
+tmux set-hook -u pane-focus-out

@@ -1,0 +1,10 @@
+#!/bin/bash
+of_ranger(){
+  local TEMP=$(mktemp)
+  # Select file using the ranger explorer
+  tmux popup -h 80% -w 80% -E ranger --choosefile=$TEMP 
+  open_file $(cat $TEMP)
+}
+
+of_ranger
+
