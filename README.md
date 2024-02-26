@@ -29,20 +29,30 @@ Files explorer (any of): lf, ranger, fzf (Adapting another one should be straigh
 
 ### Simple run
 
+Get a copy of the archive or clone using git:
 ```
 git clone https://github.com/webdev23/shelix.git 
 cd shelix
 ./shelix.sh
 ```
 
-### Installation into system menus
+<details>
+<summary>
 
-Make sure `./.local/bin` is sourced in your PATH
+### Installation into system menus
+</summary>
+Make sure `./.local/bin` is sourced in your *PATH*
 
 And run `./shelix.sh --install` or `shelix --uninstall`
 
-### Quick usage
+</details>
 
+
+<details>
+<summary>
+
+### Quick usage
+</summary>
 When an element has underscore, we can catch by acronyms, for example:
 
 New_shelix_window has for natural shortcut: `nsw`
@@ -64,13 +74,13 @@ To run the associated action, right arrow or Enter.
 To open a script for editing, press Ctrl + Shift + right arrow
 To insert a file content into a pane that has a running Helix instance, use Ctrl + right arrow.
 
-
-### Capabilities
-
-#### Example
+</details>
 
 <details>
-<summary>View features</summary>
+<summary>
+
+### Features
+</summary>
 
 - File watcher and auto reload in all running Helix instances
 - Live menu tools, scripts, insert snippets, follow symlinks
@@ -109,29 +119,28 @@ To insert a file content into a pane that has a running Helix instance, use Ctrl
 ╚----------------------------------------------------------------╝
 ```
 
-Enjoy editing 100s of files at high speed with 1% CPU of a $5 VPS :)
 
+<details>
+<summary>
 
 ### Command line usage
-
- There is a few command line parameters.
-
+</summary>
  From outside tmux:
 
 ```
-  shelix                              Open or create a new session in the current dir
+  shelix                              Open or create a new session in the current directory
 
-  shelix /path/to/dir                 Create a session 
+  shelix /path/to/dir                 Create a session in that dir
   
   shelix <session_name>               Re-attach to a session, create anew, or extend to multi-screen
 
-  shelix -c <command> -c (...)        Pass (multiple) commands to run on startup
+  shelix -c <command> -c '...'        Pass (multiple) commands to run on multiple pane on startup
+
+  shelix --theme monokai              Specify a theme (See themes directory for names)
 
 ```
 
- Further options are interactive, and may be scripted (see below)
-
- From within tmux, running shelix does simply display the menu, and mount the shell to working path.
+  From within tmux, running shelix does simply display the menu, and mount the shell to working path.
 
   ```shelix```
 
@@ -143,6 +152,10 @@ Enjoy editing 100s of files at high speed with 1% CPU of a $5 VPS :)
 
   `(echo -n "ne"; sleep 0.1; echo -n "q";) | shelix`
 
+ We may use built-in capabilities and create layouts.
+
+ `shelix --theme Visiblue -c 'asciibox <<< "Shelix is powerful" ; open_file README.md ; sleep 3 ; echo "%sShelix" | dispatch_all_hx'`
+
 
  [X11]
   To work on the same project on multiple screens and multiple terminal, first create a session within your project dir, then open again the same one, you will be asked if you want to extend on the Left or Right. 
@@ -150,6 +163,16 @@ Enjoy editing 100s of files at high speed with 1% CPU of a $5 VPS :)
   By then, the focus key shortcut Shift + arrows will dispatch the focus on all screens, enabling, if all goes well for you, an amazing multi screens workfloW!
 
   By marking panes, we could dispatch actions from any terminal, for example opening a file on the right screen from the menu on the left screen
+
+
+
+</details>
+
+<details>
+<summary>
+
+### Shelix Keybindings
+</summary>
 
 ```
 ╔---------------------------------------------------------------------------------------╗
@@ -176,6 +199,9 @@ Left arrow          Back up one level in the tree
                                                                        
 Ctrl + right        Insert text file at cursor in marked editor pane   
 Ctrl + Enter                                                           
+
+Ctrl + Shift + right  Edit scripts source file 
+Ctrl + Shift + Enter
                                                                        
 Keys                Trigger elements by first letter after underscores 
                     (Example: New_shelix_Window = nsw)                 
@@ -193,7 +219,14 @@ Ctrl + PageUp/Down  Move selection even faster
                                                                        
 Mouse actions can be triggered without focusing on the pane!           
 
----
+
+</details>
+
+<details>
+<summary>
+
+### Create new tools
+</summary>
 
 To create a new tool, we just add to the "scripts" directory.
 That directory is already populated with scripts that performs tiny actions.
@@ -211,7 +244,10 @@ Further customisations could be obtained with external utilities like powerline 
 
 Optimisation of ressources, could be improved by removing elements of the status line or the status line itself. 
                                                 
----
+
+</details>
+
+
 
 ```
 Tmux <prefix> is Ctrl + b
@@ -231,7 +267,10 @@ Panes related menu operations can be accessed with:
 ```
 
 <details>
-<summary>Some useful tmux keysbindings</summary>
+<summary>
+
+### Some useful tmux keysbindings
+</summary>
 
 All other tmux keybindings are left untouched, between them some that are useful for our purpose:
 ```

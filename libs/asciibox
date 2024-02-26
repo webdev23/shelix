@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Print ascii text box from STDIN 
+
+# STDIN=$(cat -)
+
+STDIN=$(while IFS= read -r line; do echo "$line" ; done)
+
+multibox() {
+    local text="$1"
+    local max_length=0
+
+    # Get the maximum line length
+    while IFS= read -r line; do
+        (( ${#line} > max_length )) && max_length=${#line}
+    done <<< "$text"
+
+    # Top border
+    printf "╔%*s╗\n" $((max_length + 2)) | tr ' ' '~'
+
+    # Text with side borders
+    while IFS= read -r line; do
+        printf "║ %-${max_length}s ║\n" "$line"
+    done <<< "$text"
+
+    # Bottom border
+    printf "╚%*s╝\n" $((max_length + 2)) | tr ' ' '~'
+}
+
+multibox "$STDIN"

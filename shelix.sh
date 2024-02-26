@@ -37,6 +37,7 @@ pwn() {
     local session_name=$1
     local session_path=$2
     local commands=$3
+    local theme=$4
 
     tmux new-session -d -s "$session_name" -c "$session_path"    
     # Write logs
@@ -55,17 +56,21 @@ pwn() {
       "$SHELIXPATH"/libs/layouts/reactor $session_path $commands
     fi
     # Colors and ui  
-    tmux_theme $SHELIXPATH/themes/embers.dark.json --session
+    tmux_theme "$SHELIXPATH/themes/$theme.json" --session
     # Maximize window
     wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
     # Attach to screen 
     tmux attach -t "$session_name"
 }
 
+# if [[ " $@ " =~ " --theme " ]] || ;then
+
+# fi
+
 if [[ " $@ " =~ " --install " ]];then
-    echo "OH WOW"
+    echo "Installing. See shelix.sh for details. "
     # exit
-    ln -sf $SHELIXPATH/shelix.sh ~/.local/bin/shelix
+    ln -sf $SHELIXPATH/shelix.sh ~/.local/bin/shelixy
     # Place the shelix.desktop file somewhere it can be found by the OS
     cp -f $SHELIXPATH/install/shelix.desktop ~/.local/share/applications/
     # Add the shelix.desktop file
@@ -81,7 +86,7 @@ fi
 
 
 if [[ " $@ " =~ " --uninstall " ]];then
-    echo "OH WOW"
+    echo "Cleaning down."
     rm ~/.local/bin/shelix
     rm ~/.local/share/applications/shelix.desktop
     rm ~/.local/share/applications/shelix-open.desktop
@@ -112,6 +117,8 @@ fi
 # Parse commands -c 
 rm /tmp/commands.txt 2> /dev/null
 COMMANDS=""
+THEME="embers.dark"
+
 # Commands feed
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -123,6 +130,15 @@ while [[ $# -gt 0 ]]; do
                 # echo "$2" >> COMMANDS
             else
                 echo "Error: Missing or invalid value for -c parameter."
+                exit 1
+            fi
+            shift 2
+            ;;
+        --theme) # Adding the new condition for --theme
+            if [[ -n $2 && $2 != -* ]]; then
+                THEME="$2"
+            else
+                echo "Error: Missing or invalid value for --theme parameter."
                 exit 1
             fi
             shift 2
@@ -140,7 +156,9 @@ if [ "$TERM_PROGRAM" = tmux ]; then
     cd $SHELIXPATH && ./main
     # cd $SHELIXPATH && ./main
 else
-    echo "=== Welcome (back) to the Shelix IDE :] ==="
+    echo -e "$head80"
+    echo -e "\033[0:5H$GNUV3"
+    echo -e "\033[17;0H=== Welcome to the Shelix IDE ==="
 
     if [ -n "$USESESSION" ]; then
         echo "::: $USESESSION"
@@ -178,21 +196,21 @@ else
                 logs "=== Session killed === $session_name"  
                 printf '\033]2;%s\033\\' "Shelix - $session_name" # Terminal title
                 echo "Killing and starting a new session..."
-                pwn "$session_name" "$session_path" "$COMMANDS"
+                pwn "$session_name" "$session_path" "$COMMANDS" "$THEME"
                 ;;
             "R" | "r")
                 # user pressed R/r
                 echo "Extending session on the right..."
                 logs "=== Extend session on right === $session_name $PWD"
                 printf '\033]2;%s\033\\' "Shelix - $session_name"_R # Terminal title
-                pwn "$session_name"_R "$session_path" "$COMMANDS"
+                pwn "$session_name"_R "$session_path" "$COMMANDS" "$THEME"
                 ;;
             "L" | "l")
                 # user pressed L/l
                 echo "Extending session on the left..."
                 logs "=== Extend session on left === $session_name $PWD"
                 printf '\033]2;%s\033\\' "Shelix - $session_name"_L # Terminal title
-                pwn "$session_name"_L "$session_path" "$COMMANDS"
+                pwn "$session_name"_L "$session_path" "$COMMANDS" "$THEME"
                 ;;
             *)
                 # user pressed ENTER
@@ -206,7 +224,7 @@ else
     else
         logs "=== New Session === $session_name $PWD"
         printf '\033]2;%s\033\\' "Shelix - $session_name" # Terminal title
-        pwn "$session_name" "$session_path" "$COMMANDS"
+        pwn "$session_name" "$session_path" "$COMMANDS" "$THEME"
     fi
 fi
 
