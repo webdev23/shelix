@@ -37,9 +37,7 @@ cd shelix
 ```
 
 <details>
-<summary>
-
-### Installation into system menus
+<summary>### Installation into system menus
 </summary>
 Make sure `./.local/bin` is sourced in your *PATH*
 
