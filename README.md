@@ -67,6 +67,11 @@ To insert a file content into a pane that has a running Helix instance, use Ctrl
 
 ### Capabilities
 
+#### Example
+
+<details>
+<summary>View features</summary>
+
 - File watcher and auto reload in all running Helix instances
 - Live menu tools, scripts, insert snippets, follow symlinks
 - Binding to your favorite file explorer
@@ -92,6 +97,9 @@ To insert a file content into a pane that has a running Helix instance, use Ctrl
 - @TODO spawn in a browser over xterm.js (..why?)
 - @WONT_IMPLEMENT One click debugger (That is too pecific to a language) 
 - @TODO Profiling tools
+
+</details>
+
 
 ```
 ╔----------------------------------------------------------------╗
@@ -220,8 +228,13 @@ Panes related menu operations can be accessed with:
 
  <prefix> < or >
 
-All other tmux keybindings are left untouched, between them some that are useful for our purpose:
+```
 
+<details>
+<summary>Some useful tmux keysbindings</summary>
+
+All other tmux keybindings are left untouched, between them some that are useful for our purpose:
+```
 <prefix> {   Swap pane to left
 <prefix> }   Swap pane to Right
 
@@ -252,3 +265,4 @@ Detach from session (back to shell, exit tmux)
 List sessions
 <prefix> w  , then x to close, y/n to confirm
 ```
+</details>
