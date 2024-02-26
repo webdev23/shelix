@@ -1,28 +1,9 @@
-
-╔-----------------------------------------------------------------------╗
-║                                                                       ║
-║ This file is part of the Shelix IDE.                                  ║
-║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
-║                                                                       ║
-║ This program is free software: you can redistribute it and/or modify  ║
-║ it under the terms of the GNU General Public License as published by  ║
-║ the Free Software Foundation, either version 3 of the License, or     ║
-║ (at your option) any later version.                                   ║
-║                                                                       ║
-║ This program is distributed in the hope that it will be useful,       ║
-║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
-║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
-║ GNU General Public License for more details.                          ║
-║                                                                       ║
-║ You should have received a copy of the GNU General Public License     ║
-║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
-╚-----------------------------------------------------------------------╝
----
-
 This is Shelix IDE.
 
-Shelix does intent to maximize the hidden power of tmux as an IDE, paliate to some young age deficiencies of the very cool and incredibly efficient Helix editor, around an interactive menu that performs IDE related actions. 
-Since the Helix editor does not provide an API, controls are automated via keystrokes. 
+Shelix does intent to maximize the hidden power of tmux as an IDE, paliate to some young age deficiencies of the very cool and incredibly efficient Helix editor, around an interactive menu that performs IDE related actions.
+ 
+Since the Helix editor does not provide an API, controls are automated via keystrokes.
+
 This toolsuite is made to allow the developer to keep full control over all aspects of his development environement, allowing further customisations without third party configurations, in the most straightforward way: shell scripts.
 
 The goal is to obtain the most of our keyboard with a symbiosis of tools that work well together. 
@@ -30,8 +11,6 @@ The goal is to obtain the most of our keyboard with a symbiosis of tools that wo
 Feel free to rename, delete, edit elements inside the "scripts" directory, as it's best for you.
 
 Contributions and suggestions are welcome! 
-
-¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤¤
 
 ### System dependencies
 
@@ -68,9 +47,11 @@ Alt + Space ne     opens a new editor
 We do not have to associate complex keyboard shortcuts in some configuration files, overthink them so that they come in symbiosis together, instead those comes naturally with the name of the element.
 Shortcuts are then derived by how we name our tools, or are named files. 
 
+```
 ¤--------------¤-------------¤-----------¤-------------¤
 |  Executable  |  Directory  |  Symlink  |  Text file  |
 ¤-------¤------¤-------------¤-----------¤-------------¤
+```
 
 To run the associated action, right arrow or Enter.
 To open a script for editing, press Ctrl + Shift + right arrow
@@ -105,11 +86,14 @@ To insert a file content into a pane that has a running Helix instance, use Ctrl
 - @WONT_IMPLEMENT One click debugger (That is too pecific to a language) 
 - @TODO Profiling tools
 
+```
 ╔----------------------------------------------------------------╗
 ║ Shelix won't modify any configuration of the host machine,     ║
 ║ it does source his own environement, path, and detach          ║
 ║ it all at exit. Not a single internet call is made at anytime. ║
 ╚----------------------------------------------------------------╝
+```
+
 Enjoy editing 100s of files at high speed with 1% CPU of a $5 VPS :)
 
 
@@ -119,25 +103,30 @@ Enjoy editing 100s of files at high speed with 1% CPU of a $5 VPS :)
 
  From outside tmux:
 
+```
   shelix                              Open or create a new session in the current dir
 
   shelix /path/to/dir                 Create a session 
   
   shelix <session_name>               Re-attach to a session, create anew, or extend to multi-screen
 
+  shelix -c <command> -c (...)        Pass (multiple) commands to run on startup
+```
+
  Further options are interactive, and may be scripted (see below)
 
- From within tmux, running shelix does simply display the menu.
+ From within tmux, running shelix does simply display the menu, and mount the shell to working path.
 
-  shelix
+  ```shelix```
 
  Feed elements in the menu via pipe (we may use ! to copy to clipboard)
 
-  history | shelix -
+  ```history | shelix -```
 
- Feed keystrokes via pipe: (example: opens a new editor and quit)
+ We may feed keystrokes via the pipe: (example: opens a new editor and quit)
 
-  (echo -n "ne"; sleep 0.1; echo -n "q";) | shelix
+  `(echo -n "ne"; sleep 0.1; echo -n "q";) | shelix`
+
 
  [X11]
   To work on the same project on multiple screens and multiple terminal, first create a session within your project dir, then open again the same one, you will be asked if you want to extend on the Left or Right. 
@@ -146,13 +135,12 @@ Enjoy editing 100s of files at high speed with 1% CPU of a $5 VPS :)
 
   By marking panes, we could dispatch actions from any terminal, for example opening a file on the right screen from the menu on the left screen
 
-
+```
 ╔---------------------------------------------------------------------------------------╗
 ║ Alt + Space opens shelix menu in a popup.                                             ║
 ║                                                                                       ║
 ║ Actions dispatched from a popup are dispatched on the pane on focus before the popup. ║
 ╚---------------------------------------------------------------------------------------╝
-
 
 Alt + Space         Popup menu                                         
 <prefix> Space                                                         
@@ -185,6 +173,7 @@ Ctrl + Up/Down      Move selection faster
 
 Ctrl + PageUp/Down  Move selection even faster
 
+```
                                                                        
 Mouse actions can be triggered without focusing on the pane!           
 
@@ -208,7 +197,7 @@ Optimisation of ressources, could be improved by removing elements of the status
                                                 
 ---
 
-
+```
 Tmux <prefix> is Ctrl + b
 
 <prefix> Space                  Open shelix popup
@@ -254,3 +243,4 @@ Detach from session (back to shell, exit tmux)
 
 List sessions
 <prefix> w  , then x to close, y/n to confirm
+```
