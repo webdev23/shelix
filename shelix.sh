@@ -24,6 +24,8 @@ export PATH="$SHELIXPATH/libs/:$PATH"
 
 source $SHELIXPATH/env/utils.sh
 
+USESESSION="$1"
+
 logs() {
     local message=$1
     echo "$(date)" >> shelix.logs  
@@ -59,6 +61,34 @@ pwn() {
     # Attach to screen 
     tmux attach -t "$session_name"
 }
+
+if [[ " $@ " =~ " --install " ]];then
+    echo "OH WOW"
+    # exit
+    ln -sf $SHELIXPATH/shelix.sh ~/.local/bin/shelix
+    # Place the shelix.desktop file somewhere it can be found by the OS
+    cp -f $SHELIXPATH/install/shelix.desktop ~/.local/share/applications/
+    # Add the shelix.desktop file
+    cp -f $SHELIXPATH/install/shelix-open.desktop ~/.local/share/applications/
+    # Icon
+    xdg-icon-resource install --size 128 $SHELIXPATH/shelix-ide.png 
+    # Update the paths to the shelix and its icon in the shelix.desktop file(s)
+    sed -i "s|SHELIXPATH|$SHELIXPATH|g" ~/.local/share/applications/shelix*.desktop
+    # sed -i "s|Icon=SHELIXPATH|Icon=$SHELIXPATH/shelix.png|g" ~/.local/share/applications/shelix*.desktop
+    # sed -i "s|Exec=SHELIXPATH|Exec=$SHELIXPATH/shelix|g" ~/.local/share/applications/shelix*.desktop
+    exit
+fi
+
+
+if [[ " $@ " =~ " --uninstall " ]];then
+    echo "OH WOW"
+    rm ~/.local/bin/shelix
+    rm ~/.local/share/applications/shelix.desktop
+    rm ~/.local/share/applications/shelix-open.desktop
+    xdg-icon-resource uninstall --size 128 shelix-ide.png 
+    exit
+fi
+
 
 
 # @TODO improve command line param handling
@@ -112,10 +142,11 @@ if [ "$TERM_PROGRAM" = tmux ]; then
 else
     echo "=== Welcome (back) to the Shelix IDE :] ==="
 
-    if [ -n "$1" ]; then
-        if [ -e "$1" ] && [ -d "$1" ]; then
-            session_path="$1"
-            session_name="$(basename $1)"
+    if [ -n "$USESESSION" ]; then
+        echo "::: $USESESSION"
+        if [ -e "$USESESSION" ] && [ -d "$USESESSION" ]; then
+            session_path="$USESESSION"
+            session_name="$(basename $USESESSION)"
             echo "Session name = $session_name "
             echo "Session path = $session_path "
         else
