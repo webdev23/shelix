@@ -8,8 +8,6 @@ This toolsuite is made to allow the developer to keep full control over all aspe
 
 The goal is to obtain the most of our keyboard with a symbiosis of tools that work well together. 
 
-Feel free to rename, delete, edit elements inside the "scripts" directory, as it's best for you.
-
 Contributions and suggestions are welcome! 
 
 ### System dependencies
@@ -29,20 +27,29 @@ Files explorer (any of): lf, ranger, fzf (Adapting another one should be straigh
 
 `sudo apt install lf`
 
-### Installation
+### Simple run
 
+```
+git clone https://github.com/webdev23/shelix.git 
+cd shelix
+./shelix.sh
+```
 
+### Installation into system menus
 
+Make sure `./.local/bin` is sourced in your PATH
 
+And run `./shelix.sh --install` or `shelix --uninstall`
 
 ### Quick usage
 
 When an element has underscore, we can catch by acronyms, for example:
 
-New_shelix_window has for natural shortcut: nsw
-New_shell_above: nsa
+New_shelix_window has for natural shortcut: `nsw`
 
-Alt + Space ne     opens a new editor
+New_shell_above: `nsa`
+
+`Alt + Space ne`     open a New Editor
 
 We do not have to associate complex keyboard shortcuts in some configuration files, overthink them so that they come in symbiosis together, instead those comes naturally with the name of the element.
 Shortcuts are then derived by how we name our tools, or are named files. 
@@ -111,6 +118,7 @@ Enjoy editing 100s of files at high speed with 1% CPU of a $5 VPS :)
   shelix <session_name>               Re-attach to a session, create anew, or extend to multi-screen
 
   shelix -c <command> -c (...)        Pass (multiple) commands to run on startup
+
 ```
 
  Further options are interactive, and may be scripted (see below)
