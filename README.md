@@ -15,6 +15,7 @@ The goal is to obtain the most of our keyboard with a symbiosis of tools that wo
 Contributions and suggestions are welcome! 
 </details>
 
+---
 
 <details>
 <summary>👀
@@ -39,26 +40,28 @@ Files explorer (any of): lf, ranger, fzf (Adapting another one should be straigh
 
 </details>
 
-### Simple run
+---
 
-Get a copy of the archive or clone using git:
+<details>
+<summary>👀
+
+## Using and Installation
+</summary>
+
+Get a copy of the archive, or clone using git:
 ```
 git clone https://github.com/webdev23/shelix.git 
 cd shelix
 ./shelix.sh
 ```
 
-<details>
-<summary>👀
-
-## Installation into *system*
-</summary>
 Make sure `./.local/bin` is sourced in your *PATH*
 
 And run `./shelix.sh --install` or `shelix --uninstall`
 
 </details>
 
+---
 
 <details>
 <summary>👀
@@ -69,12 +72,7 @@ When an element has underscore, we can catch by acronyms, for example:
 
 New_shelix_window has for natural shortcut: `nsw`
 
-New_shell_above: `nsa`
-
 `Alt + Space ne`     open a New Editor
-
-We do not have to associate complex keyboard shortcuts in some configuration files, overthink them so that they come in symbiosis together, instead those comes naturally with the name of the element.
-Shortcuts are then derived by how we name our tools, or are named files. 
 
 ```
 ¤--------------¤-------------¤-----------¤-------------¤
@@ -83,10 +81,14 @@ Shortcuts are then derived by how we name our tools, or are named files.
 ```
 
 To run the associated action, right arrow or Enter.
+
 To open a script for editing, press Ctrl + Shift + right arrow
+
 To insert a file content into a pane that has a running Helix instance, use Ctrl + right arrow.
 
 </details>
+
+---
 
 <details>
 <summary>👀
@@ -122,15 +124,7 @@ To insert a file content into a pane that has a running Helix instance, use Ctrl
 
 </details>
 
-
-```
-╔----------------------------------------------------------------╗
-║ Shelix won't modify any configuration of the host machine,     ║
-║ it does source his own environement, path, and detach          ║
-║ it all at exit. Not a single internet call is made at anytime. ║
-╚----------------------------------------------------------------╝
-```
-
+---
 
 <details>
 <summary>👀
@@ -179,6 +173,8 @@ To insert a file content into a pane that has a running Helix instance, use Ctrl
 
 
 </details>
+
+---
 
 <details>
 <summary>👀
@@ -232,7 +228,28 @@ Ctrl + PageUp/Down  Move selection even faster
 Mouse actions can be triggered without focusing on the pane!           
 
 
+
+
+```
+Tmux <prefix> is Ctrl + b
+
+<prefix> Space                  Open shelix popup
+<prefix> Alt + Space            Save pane layout
+<prefix> Ctrl + Alt + Space     Restore previously saved pane layout
+
+An extended tmux menu is configured for all tmux related operations:
+
+Alt + Tab
+
+Panes related menu operations can be accessed with:
+
+ <prefix> < or >
+
+```
+
 </details>
+
+---
 
 <details>
 <summary>👀
@@ -259,29 +276,12 @@ Optimisation of ressources, could be improved by removing elements of the status
 
 </details>
 
-
-
-```
-Tmux <prefix> is Ctrl + b
-
-<prefix> Space                  Open shelix popup
-<prefix> Alt + Space            Save pane layout
-<prefix> Ctrl + Alt + Space     Restore previously saved pane layout
-
-An extended tmux menu is configured for all tmux related operations:
-
-Alt + Tab
-
-Panes related menu operations can be accessed with:
-
- <prefix> < or >
-
-```
+---
 
 <details>
 <summary>👀
 
-### Some useful tmux keysbindings
+### More keysbindings
 </summary>
 
 All other tmux keybindings are left untouched, between them some that are useful for our purpose:
@@ -317,3 +317,13 @@ List sessions
 <prefix> w  , then x to close, y/n to confirm
 ```
 </details>
+
+---
+
+```
+╔----------------------------------------------------------------╗
+║ Shelix won't modify any configuration of the host machine,     ║
+║ it does source his own environement, path, and detach          ║
+║ it all at exit. Not a single internet call is made at anytime. ║
+╚----------------------------------------------------------------╝
+```
