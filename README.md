@@ -23,9 +23,6 @@ Contributions and suggestions are welcome!
 ### Requirements
 </summary>
 
-Generic infos are given for the Debian family, it is higly recommended to install packages from the sources, in particular to get the last versions.
-There is high chance that shelix runs out of the box on proprietary OS, if the blackbox has a shell and understand hashbang scripting, it's a good start.
-
 The system require tmux (tested 3.2, 3.3, 3.4, 3.4 next), PHP8+, and the Helix editor.
 
 `sudo apt install tmux php helix`
@@ -42,7 +39,7 @@ Files explorer (any of): lf, ranger, fzf (Adapting another one should be straigh
 
 ---
 
-<details>
+<details open>
 <summary>👀
 
 ## Using and Installation
@@ -179,8 +176,10 @@ To insert a file content into a pane that has a running Helix instance, use Ctrl
 <details>
 <summary>👀
 
-### Shelix Keybindings
+### Keybindings
 </summary>
+
+Shortcuts can be re-configured. (see `/env` directory)
 
 ```
 ╔---------------------------------------------------------------------------------------╗
@@ -228,22 +227,27 @@ Ctrl + PageUp/Down  Move selection even faster
 Mouse actions can be triggered without focusing on the pane!           
 
 
-
+Tmux is enhanced with those keybindings:
 
 ```
 Tmux <prefix> is Ctrl + b
 
-<prefix> Space                  Open shelix popup
 <prefix> Alt + Space            Save pane layout
 <prefix> Ctrl + Alt + Space     Restore previously saved pane layout
 
-An extended tmux menu is configured for all tmux related operations:
+Shift + Arrows                  Move focus betweeen panes
 
-Alt + Tab
+F8 F9                           Move focus between windows
 
-Panes related menu operations can be accessed with:
+F12                             Zoom pane
+Double click
 
- <prefix> < or >
+
+Alt + Tab                       Tmux related operations in a menu
+
+
+<prefix> < or >                 Panes related menu operations can be accessed with:
+
 
 ```
 
@@ -286,35 +290,25 @@ Optimisation of ressources, could be improved by removing elements of the status
 
 All other tmux keybindings are left untouched, between them some that are useful for our purpose:
 ```
-<prefix> {   Swap pane to left
-<prefix> }   Swap pane to Right
+<prefix> {                  Swap pane to left
+<prefix> }                  Swap pane to Right
 
-<prefix> !   Move the pane in a new window
+<prefix> !                  Move the pane in a new window
 
-Resize a pan:
-Press Ctrl + b, release b while holding Ctrl, use the arrows
-<prefix> Ctrl arrows 
+<prefix> Ctrl arrows        Resize pan
+                            Press Ctrl + b, release b while holding Ctrl, use the arrows
 
-Enter copy mode
-<prefix> [
-Enter select mode:
-v
-Copy to system clipboard:
-y
-Paste: <prefix> ]
-Or paste: Ctrl + Shift + v 
+<prefix> [                  Enter copy mode
+v                           Enter select mode:
+y                           Copy to system clipboard:
+<prefix> ]                  Paste (Ctrl + Shift + v)  
 
+<prefix> &                  Kill current window:
 
-With a mouse, simply select, press y to copy to system clipboard
+<prefix> d                  Detach from session (back to shell, exit tmux)
 
-Kill current window:
-<prefix> &
+<prefix> w                  List sessions (we could kill sessionsq from there with `x` to close, `y` to confirm)
 
-Detach from session (back to shell, exit tmux)
-<prefix> d
-
-List sessions
-<prefix> w  , then x to close, y/n to confirm
 ```
 </details>
 
