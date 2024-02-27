@@ -1,4 +1,8 @@
-This is Shelix IDE.
+<details>
+<summary>👀
+
+### This is Shelix IDE.
+</summary>
 
 Shelix does intent to maximize the hidden power of tmux as an IDE, paliate to some young age deficiencies of the very cool and incredibly efficient Helix editor, around an interactive menu that performs IDE related actions.
  
@@ -9,8 +13,14 @@ This toolsuite is made to allow the developer to keep full control over all aspe
 The goal is to obtain the most of our keyboard with a symbiosis of tools that work well together. 
 
 Contributions and suggestions are welcome! 
+</details>
 
-### System dependencies
+
+<details>
+<summary>👀
+
+### Requirements
+</summary>
 
 Generic infos are given for the Debian family, it is higly recommended to install packages from the sources, in particular to get the last versions.
 There is high chance that shelix runs out of the box on proprietary OS, if the blackbox has a shell and understand hashbang scripting, it's a good start.
@@ -27,6 +37,8 @@ Files explorer (any of): lf, ranger, fzf (Adapting another one should be straigh
 
 `sudo apt install lf`
 
+</details>
+
 ### Simple run
 
 Get a copy of the archive or clone using git:
@@ -37,9 +49,9 @@ cd shelix
 ```
 
 <details>
-<summary>
+<summary>👀
 
-## Installation into system menus
+## Installation into *system*
 </summary>
 Make sure `./.local/bin` is sourced in your *PATH*
 
@@ -49,7 +61,7 @@ And run `./shelix.sh --install` or `shelix --uninstall`
 
 
 <details>
-<summary>
+<summary>👀
 
 ### Quick usage
 </summary>
@@ -77,7 +89,7 @@ To insert a file content into a pane that has a running Helix instance, use Ctrl
 </details>
 
 <details>
-<summary>
+<summary>👀
 
 ### Features
 </summary>
@@ -121,7 +133,7 @@ To insert a file content into a pane that has a running Helix instance, use Ctrl
 
 
 <details>
-<summary>
+<summary>👀
 
 ### Command line usage
 </summary>
@@ -169,7 +181,7 @@ To insert a file content into a pane that has a running Helix instance, use Ctrl
 </details>
 
 <details>
-<summary>
+<summary>👀
 
 ### Shelix Keybindings
 </summary>
@@ -223,7 +235,7 @@ Mouse actions can be triggered without focusing on the pane!
 </details>
 
 <details>
-<summary>
+<summary>👀
 
 ### Create new tools
 </summary>
@@ -267,7 +279,7 @@ Panes related menu operations can be accessed with:
 ```
 
 <details>
-<summary>
+<summary>👀
 
 ### Some useful tmux keysbindings
 </summary>
