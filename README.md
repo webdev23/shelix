@@ -177,7 +177,7 @@ Using links to direcctories, Shelix can be used as file explorer.
 
 </details>
 
-<details>
+<details open>
 <summary>👀
 
 ### Keybindings
@@ -287,7 +287,7 @@ Optimisation of ressources, could be improved by removing elements of the status
 <details>
 <summary>👀
 
-### More keysbindings
+### More keybindings
 </summary>
 
 All other tmux keybindings are left untouched, between them some that are useful for our purpose:
