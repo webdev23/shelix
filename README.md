@@ -169,10 +169,9 @@ Using links to direcctories, Shelix can be used as file explorer.
  [X11]
   To work on the same project on multiple screens and multiple terminal, first create a session within your project dir, then open again the same one, you will be asked if you want to extend on the Left or Right. 
   
-  By then, the focus key shortcut Shift + arrows will dispatch the focus on all screens, enabling, if all goes well for you, an amazing multi screens workfloW!
+  By then, the focus key shortcut `Shift + arrows` will dispatch the focus on all screens, enabling, if all goes well for you, an amazing multi screens workflow!
 
-  By marking panes, we could dispatch actions from any terminal, for example opening a file on the right screen from the menu on the left screen
-
+  By marking panes, we could dispatch actions from any terminal, for example opening a file on the right screen from the menu on the left screen.
 
 
 </details>
@@ -183,7 +182,6 @@ Using links to direcctories, Shelix can be used as file explorer.
 ### Keybindings
 </summary>
 
-Shortcuts can be re-configured. (see `/env` directory)
 
 ```
 ╔---------------------------------------------------------------------------------------╗
@@ -250,7 +248,7 @@ Double click
 Alt + Tab                       Tmux related operations in a menu
 
 
-<prefix> < or >                 Panes related menu operations can be accessed with:
+<prefix> < or >                 Panes related menu operations can be accessed with
 
 
 ```
