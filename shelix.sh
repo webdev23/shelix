@@ -28,8 +28,8 @@ USESESSION="$1"
 
 logs() {
     local message=$1
-    echo "$(date)" >> shelix.logs  
-    echo $message >> shelix.logs    
+    echo "$(date)" >> $SHELIXPATH/shelix.logs  
+    echo $message >> $SHELIXPATH/shelix.logs    
 }
 
 

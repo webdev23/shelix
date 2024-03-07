@@ -14,6 +14,10 @@ Contributions and suggestions are welcome!
 
 ---
 
+![Shelix_IDE](https://github.com/webdev23/shelix/assets/2503337/4183caed-191d-42b9-ba77-14bee7650227)
+
+---
+
 <details>
 <summary>👀
 
@@ -286,7 +290,10 @@ See "libs" dir for a list of built-in tools that makes the core. Those tools are
 Further customisations could be obtained with external utilities like powerline or nerd fonts.
 
 Optimisation of ressources, could be improved by removing elements of the status line or the status line itself. 
-                                                
+
+#### Logs:
+
+`tail -f $SHELIXPATH/shelix.logs `                                              
 
 </details>
 
