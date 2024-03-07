@@ -71,7 +71,7 @@ pwn() {
 if [[ " $@ " =~ " --install " ]];then
     echo "Installing. See shelix.sh for details. "
     # exit
-    ln -sf $SHELIXPATH/shelix.sh ~/.local/bin/shelixy
+    ln -sf $SHELIXPATH/shelix.sh ~/.local/bin/shelix
     # Place the shelix.desktop file somewhere it can be found by the OS
     cp -f $SHELIXPATH/install/shelix.desktop ~/.local/share/applications/
     # Add the shelix.desktop file
