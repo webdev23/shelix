@@ -2,7 +2,7 @@
 ### This is Shelix IDE.
 </summary>
 
-Shelix does intent to maximize the hidden power of tmux as an IDE, paliate to some missing features of the otherwise very cool and incredibly efficient Helix editor, around an interactive menu that performs IDE related actions.
+Shelix does intent to maximize the hidden power of [Tmux](https://github.com/tmux/tmux) as an [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment), enhance capabilities of the incredibly efficient [Helix editor](https://github.com/helix-editor/helix), around an interactive menu that performs IDE related actions.
  
 Since the Helix editor does not provide an API, controls are automated via keystrokes.
 
@@ -10,7 +10,7 @@ This toolsuite is made to allow the developer to keep full control over all aspe
 
 The goal is to obtain the most of our keyboard with a symbiosis of tools that work well together. 
 
-Contributions and suggestions are welcome! 
+[Contributions](https://github.com/webdev23/shelix/blob/main/CONTRIBUTING.md) and [suggestions](https://github.com/webdev23/shelix/discussions) are welcome! 
 
 ![Shelix_IDE](https://github.com/webdev23/shelix/assets/2503337/4183caed-191d-42b9-ba77-14bee7650227)
 
