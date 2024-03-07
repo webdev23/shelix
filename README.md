@@ -12,7 +12,9 @@ The goal is to obtain the most of our keyboard with a symbiosis of tools that wo
 
 [Contributions](https://github.com/webdev23/shelix/blob/main/CONTRIBUTING.md) and [suggestions](https://github.com/webdev23/shelix/discussions) are welcome! 
 
-![Shelix_IDE](https://github.com/webdev23/shelix/assets/2503337/4183caed-191d-42b9-ba77-14bee7650227)
+Screenshots gallery: https://github.com/webdev23/shelix/wiki/Screen-captures
+
+![Shelix_IDE](https://github.com/webdev23/shelix/assets/2503337/37f558bf-b2a1-4557-ad68-bd56d429cf7c)
 
 <details>
 <summary>👀
@@ -130,7 +132,7 @@ Using links to direcctories, Shelix can be used as file explorer.
 
 </details>
 
-<details>
+<details open>
 <summary>👀
 
 ### Command line usage
