@@ -2,7 +2,7 @@
 ### This is Shelix IDE.
 </summary>
 
-Shelix does intent to maximize the hidden power of tmux as an IDE, paliate to some young age deficiencies of the very cool and incredibly efficient Helix editor, around an interactive menu that performs IDE related actions.
+Shelix does intent to maximize the hidden power of tmux as an IDE, paliate to some missing features of the otherwise very cool and incredibly efficient Helix editor, around an interactive menu that performs IDE related actions.
  
 Since the Helix editor does not provide an API, controls are automated via keystrokes.
 
@@ -12,11 +12,42 @@ The goal is to obtain the most of our keyboard with a symbiosis of tools that wo
 
 Contributions and suggestions are welcome! 
 
----
-
 ![Shelix_IDE](https://github.com/webdev23/shelix/assets/2503337/4183caed-191d-42b9-ba77-14bee7650227)
 
----
+<details>
+<summary>👀
+
+### Features
+</summary>
+
+- File watcher and auto reload in all running Helix instances
+- Live menu tools, scripts, insert snippets, follow symlinks
+- Binding to your favorite file explorer
+- Explore files within the menu
+- Quick access to recently edited files
+- Save all buffers in multiple Helix in one action
+- Run again the last command on a marked pane at file saving
+- Search in multiple buffers, multiples hx instances
+- Multiple IDE alike layouts
+- Automatic sessions management
+- Smart focus between multiple terminal window and sessions 
+- Multi-cursor on multiple Helix instance (edit/open multiples files all at once)
+- Git integration
+- Snippets collection, quick insert at cursor
+- Theming, per session, window, or globally. 
+- Icons, Unicode for compatibility
+- Search and replace tools
+- Icons and installers scripts
+- Multiple screens support under [X11]
+- ZERO config (hopefully!)
+- @TODO Pack into one single executable file archive
+- @TODO Layout saving by project directory
+- @TODO spawn in a browser over xterm.js (..why?)
+- @WONT_IMPLEMENT One click debugger (That is too pecific to a language) 
+- @TODO Profiling tools
+
+</details>
+
 
 <details>
 <summary>👀
@@ -37,8 +68,6 @@ Files explorer (any of): lf, ranger, fzf (Adapting another one should be straigh
 `sudo apt install lf`
 
 </details>
-
----
 
 <details open>
 <summary>👀
@@ -63,8 +92,6 @@ Make sure `./.local/bin` is sourced in your **PATH**
 `shelix --uninstall`
 
 </details>
-
----
 
 <details>
 <summary>👀
@@ -102,44 +129,6 @@ To insert a file content into a pane that has a running Helix instance, use `Ctr
 Using links to direcctories, Shelix can be used as file explorer.
 
 </details>
-
----
-
-<details>
-<summary>👀
-
-### Features
-</summary>
-
-- File watcher and auto reload in all running Helix instances
-- Live menu tools, scripts, insert snippets, follow symlinks
-- Binding to your favorite file explorer
-- Explore files within the menu
-- Quick access to recently edited files
-- Save all buffers in multiple Helix in one action
-- Run again the last command on a marked pane at file saving
-- Search in multiple buffers, multiples hx instances
-- Multiple IDE alike layouts
-- Automatic sessions management
-- Smart focus between multiple terminal window and sessions 
-- Multi-cursor on multiple Helix instance (edit/open multiples files all at once)
-- Git integration
-- Snippets collection, quick insert at cursor
-- Theming, per session, window, or globally. 
-- Icons, Unicode for compatibility
-- Search and replace tools
-- Icons and installers scripts
-- Multiple screens support under [X11]
-- ZERO config (hopefully!)
-- @TODO Pack into one single executable file archive
-- @TODO Layout saving by project directory
-- @TODO spawn in a browser over xterm.js (..why?)
-- @WONT_IMPLEMENT One click debugger (That is too pecific to a language) 
-- @TODO Profiling tools
-
-</details>
-
----
 
 <details>
 <summary>👀
@@ -185,8 +174,6 @@ Using links to direcctories, Shelix can be used as file explorer.
 
 
 </details>
-
----
 
 <details>
 <summary>👀
@@ -268,8 +255,6 @@ Alt + Tab                       Tmux related operations in a menu
 
 </details>
 
----
-
 <details>
 <summary>👀
 
@@ -296,8 +281,6 @@ Optimisation of ressources, could be improved by removing elements of the status
 `tail -f $SHELIXPATH/shelix.logs `                                              
 
 </details>
-
----
 
 <details>
 <summary>👀
@@ -328,8 +311,6 @@ y                           Copy to system clipboard:
 
 ```
 </details>
-
----
 
 ```
 ╔----------------------------------------------------------------╗
