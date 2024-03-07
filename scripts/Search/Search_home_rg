@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 # ╔-----------------------------------------------------------------------╗
 # ║                                                                       ║
 # ║ This file is part of the Shelix IDE.                                  ║
@@ -18,25 +18,4 @@
 # ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
 # ╚-----------------------------------------------------------------------╝
 
-
-
-tmux split-window -t 0 -h 
-tmux split-window -t 1 -h
-tmux split-window -t 2 -h
-# tmux split-window -t 1 -h 
-
-tmux resize-pane -t 0 -x 16%
-tmux resize-pane -t 1 -x 30%
-tmux resize-pane -t 2 -x 40%
-
-tmux send-keys -t 0 "shelix" Enter
-tmux send-keys -t 1 "hx" Enter
-tmux send-keys -t 2 "hx" Enter
-# tmux send-keys -t 3 "" Enter
-# tmux send-keys -t 4 "hx" Enter
-tmux select-pane -t 1 -T 'hx'
-tmux select-pane -t 2 -T 'hx'
-tmux select-pane -t 3 -T 'hx'
-# tmux select-pane -t 4 -T 'hx'
-
-tmux resize-pane -t 0 -x 20
+pop 'echo "\033[7;5;1m Search in ~/:\e[0m \c"; read search && unbuffer rg --hidden $search / | less -R'

@@ -20,23 +20,42 @@
 
 # Utility functions
 
+HELP="
+ From outside tmux:
+  shelix                              Open or create a new session in the current directory
+  shelix /path/to/dir                 Create a session in that dir
+  shelix <session_name>               Re-attach to a session, create anew, or extend to multi-screen
+  shelix -c <command> -c '...'        Pass commands to run on panes on startup
+  shelix --theme <monokai>            Specify a theme (See themes directory)
+
+  From within tmux, running shelix does display the menu, and (re)mount the shell to the session path.
+  shelix
+
+ Feed elements in the menu via pipe (we may use ! to copy to clipboard)
+  ls | shelix -
+
+ We could use built-in capabilities and create a particular layout.
+ shelix --theme Visiblue -c 'php -S localhost:8080' -c 'hx index.html' 
+
+"
 
 
-getParamIfExists() {
-    local param="$1"
 
-    while [[ $# -gt 0 ]]; do
-        case $1 in
-            "$param")
-                echo "$2"
-                return 0
-                ;;
-        esac
-        shift
-    done
+# getParamIfExists() {
+#     local param="$1"
 
-    return 1  # Parameter not found
-}
+#     while [[ $# -gt 0 ]]; do
+#         case $1 in
+#             "$param")
+#                 echo "$2"
+#                 return 0
+#                 ;;
+#         esac
+#         shift
+#     done
+
+#     return 1  # Parameter not found
+# }
 
 
 renameEditorsPanes() {

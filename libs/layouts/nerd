@@ -27,9 +27,9 @@ tmux split-window -t 2 -v
 tmux split-window -t 3 -v 
 tmux split-window -t 4 -v 
 
-tmux resize-pane -t 0 -x 14%
-tmux resize-pane -t 1 -x 30%
-# tmux resize-pane -t 2 -x 38%
+# tmux resize-pane -t 0 -x 14%
+tmux resize-pane -t 1 -x 20%
+tmux resize-pane -t 2 -x 38%
 tmux resize-pane -t 6 -x 35%
 
 
@@ -59,9 +59,9 @@ tmux send-keys -t 6 "hx" Enter
 
 
 tmux selectp -t 1 -T "hx"
-tmux selectp -t 2 -T "$SHELL"
-tmux selectp -t 4 -T "$SHELL"
-tmux selectp -t 5 -T "$SHELL"
+# tmux selectp -t 2 -T "$SHELL"
+# tmux selectp -t 4 -T "$SHELL"
+# tmux selectp -t 5 -T "$SHELL"
 tmux selectp -t 6 -T "hx"
 
 tmux kill-pane -t 0

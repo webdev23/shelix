@@ -59,6 +59,7 @@ pwn() {
     tmux_theme "$SHELIXPATH/themes/$theme.json" --session
     # Maximize window
     wmctrl -r :ACTIVE: -b add,maximized_vert,maximized_horz
+    sleep 0.5
     # Attach to screen 
     tmux attach -t "$session_name"
 }
@@ -123,7 +124,6 @@ THEME="embers.dark"
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -c)
-            echo "has -c param"
             if [[ -n $2 && $2 != -* ]]; then
                 echo "$2" >> /tmp/commands.txt
                 COMMANDS="1"
@@ -143,6 +143,11 @@ while [[ $# -gt 0 ]]; do
             fi
             shift 2
             ;;
+        --help) # Adding the new condition for --theme
+               echo "$HELP"
+               exit
+            shift 2
+            ;;
         *)
             shift
             ;;
@@ -153,7 +158,8 @@ done
 if [ "$TERM_PROGRAM" = tmux ]; then
     # Shelix is ran under tmux, display the menu only
     printf '\033]2;%s\033\\' 'shelix' # Pane title
-    cd $SHELIXPATH && ./main
+    # cd $SHELIXPATH && ./main
+    $SHELIXPATH/main
     # cd $SHELIXPATH && ./main
 else
     echo -e "$head80"

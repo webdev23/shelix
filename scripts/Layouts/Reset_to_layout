@@ -18,7 +18,7 @@
 # ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
 # ╚-----------------------------------------------------------------------╝
 
-source $SHELIXPATH/env/utils.sh
+# source $SHELIXPATH/env/utils.sh
 
 # Check if a parameter is provided
 if [ $# -eq 0 ]; then
@@ -28,6 +28,6 @@ else
   # tmux confirm-before -p "Kill all pane on this window? (y/n)" ""
   tmux kill-pane -a 
   # "$@"
-  "$SHELIXPATH"/libs/layouts/"$@"
-  renameEditorsPanes
+  "$SHELIXPATH"/libs/layouts/"$@" "$SHELIXSESSIONDIR"
+  # renameEditorsPanes
 fi

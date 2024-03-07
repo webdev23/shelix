@@ -1,5 +1,3 @@
-<details>
-<summary>👀
 
 ### This is Shelix IDE.
 </summary>
@@ -13,7 +11,6 @@ This toolsuite is made to allow the developer to keep full control over all aspe
 The goal is to obtain the most of our keyboard with a symbiosis of tools that work well together. 
 
 Contributions and suggestions are welcome! 
-</details>
 
 ---
 
@@ -42,19 +39,24 @@ Files explorer (any of): lf, ranger, fzf (Adapting another one should be straigh
 <details open>
 <summary>👀
 
-## Using and Installation
+## Run and Install
 </summary>
 
 Get a copy of the archive, or clone using git:
 ```
-git clone https://github.com/webdev23/shelix.git 
+git clone --depth 1 https://github.com/webdev23/shelix.git 
 cd shelix
 ./shelix.sh
 ```
 
-Make sure `./.local/bin` is sourced in your *PATH*
+#### Install globally
+Make sure `./.local/bin` is sourced in your **PATH**
 
-And run `./shelix.sh --install` or `shelix --uninstall`
+`./shelix.sh --install`
+
+#### Uninstall
+
+`shelix --uninstall`
 
 </details>
 
@@ -63,13 +65,23 @@ And run `./shelix.sh --install` or `shelix --uninstall`
 <details>
 <summary>👀
 
-### Quick usage
+### Basic Usage
 </summary>
+
 When an element has underscore, we can catch by acronyms, for example:
 
-New_shelix_window has for natural shortcut: `nsw`
+`nsw`                New_Shelix_Window
+
+And if no conflicts in the list, elements can also be called naturally:
+
+`lay`                Layouts
+
+This makes shortcuts available from any panes, using the popup:
 
 `Alt + Space ne`     open a New Editor
+
+
+Elements have different behavior between their type.
 
 ```
 ¤--------------¤-------------¤-----------¤-------------¤
@@ -77,11 +89,13 @@ New_shelix_window has for natural shortcut: `nsw`
 ¤-------¤------¤-------------¤-----------¤-------------¤
 ```
 
-To run the associated action, right arrow or Enter.
+To run the associated action, `right arrow` or `Enter`.
 
-To open a script for editing, press Ctrl + Shift + right arrow
+To open a script for editing, press `Ctrl + Shift + right arrow`
 
-To insert a file content into a pane that has a running Helix instance, use Ctrl + right arrow.
+To insert a file content into a pane that has a running Helix instance, use `Ctrl + right arrow`.
+
+Using links to direcctories, Shelix can be used as file explorer.
 
 </details>
 
@@ -149,16 +163,13 @@ To insert a file content into a pane that has a running Helix instance, use Ctrl
 
  Feed elements in the menu via pipe (we may use ! to copy to clipboard)
 
-  ```history | shelix -```
+  `history | shelix -`
 
- We may feed keystrokes via the pipe: (example: opens a new editor and quit)
-
-  `(echo -n "ne"; sleep 0.1; echo -n "q";) | shelix`
+  `ls | shelix -`
 
  We may use built-in capabilities and create layouts.
 
- `shelix --theme Visiblue -c 'asciibox <<< "Shelix is powerful" ; open_file README.md ; sleep 3 ; echo "%sShelix" | dispatch_all_hx'`
-
+ `shelix --theme Visiblue -c 'php -S localhost:8080' -c 'hx index.html'`
 
  [X11]
   To work on the same project on multiple screens and multiple terminal, first create a session within your project dir, then open again the same one, you will be asked if you want to extend on the Left or Right. 
@@ -261,14 +272,13 @@ Alt + Tab                       Tmux related operations in a menu
 ### Create new tools
 </summary>
 
-To create a new tool, we just add to the "scripts" directory.
-That directory is already populated with scripts that performs tiny actions.
+To create a new tool, we have to populate the "scripts" directory.
 
 We could build a tool using any language, using the hashbang mechanism.
 A script may return a simple JSON array, to create a menu list, and the selection is ran again as $1.
 This mechansim may allow to build complex utilities on a single file. 
 
-By passing a rocket a 🚀 in the last element in the array, we dispatch selection immediatly.
+By passing a rocket a 🚀 in the last element in the array, we may dispatch the selection immediatly.
 
 The content of the "scripts" directory could be fully erased, so we may start fresh anew to build our own dedicated toolbox. 
 See "libs" dir for a list of built-in tools that makes the core. Those tools are sourced in the environnement and are available by their namme from any shell within shelix.
