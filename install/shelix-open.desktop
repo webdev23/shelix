@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=shelix editor
+GenericName=Shelix IDE
+Terminal=true
+Comment=Open with shelix
+Exec=bash -c 'cd SHELIXPATH && ./shelix.sh %U; $SHELL' shelix %U
+Icon=shelix-ide.png
+Categories=Development
+MimeType=application/x-sh;application/x-shellscript;

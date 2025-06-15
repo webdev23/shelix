@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+# tmux new-window && tmux send "cd $PWD && shelix -l1" 
+tmux new-window && tmux send "shelix -l0" ENTER && tmux display-popup -C 
+

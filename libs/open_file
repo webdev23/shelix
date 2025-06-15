@@ -1,0 +1,61 @@
+#!/bin/bash
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+if [ -n "$1" ];then
+  FILE="${1}"  
+fi
+
+openfile(){  
+  # Check if a pane is marked, has priority
+  MARKED=$(tmux display -p -t '~' '#D')
+    if [ -n "$MARKED" ]; then
+      tmux send-keys -t '~' Escape
+      tmux send-keys -t '~' ":o $FILE" ENTER
+      exit  
+  fi
+
+  # Check if ran from inside a popup
+  # if [ -z "$TMUX_PANE" ]; then
+  #   tmux send-keys Escape
+  #   tmux send-keys ":o $FILE" ENTER
+  #   exit
+  # fi
+
+  # That window has no editors, create one
+  if [ $(has_editor) == "0" ];then
+    tmux split-window -h
+    tmux select-pane -T hx # Pane title
+    tmux send-keys "hx" Enter # Run hx
+    tmux select-pane -L # Focus back to left pane
+    tmux resizep -x 16%
+    sleep 0.2
+  fi
+
+
+
+  # notify "$FILE"
+  # Or use the first editor, we can use to_last_hx
+  tmux send-keys -t $(to_first_hx) Escape
+  tmux send-keys -t $(to_first_hx) ":o $FILE" ENTER
+  
+}
+
+openfile
+

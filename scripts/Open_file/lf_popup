@@ -1,0 +1,10 @@
+#!/bin/bash
+of_lf(){
+  local TEMP=$(mktemp)
+  # Select file using the lf explorer
+  tmux popup -h 80% -w 80% -E lf -selection-path=$TEMP 
+  open_file $(cat $TEMP)
+}
+
+of_lf
+

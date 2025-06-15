@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=MyVim
+Exec=xfce4-terminal -e 'bash -c "shelix; bash"' -T "Run and ready"
+Terminal=false
+Icon=shelix
+Categories=Utility;TextEditor

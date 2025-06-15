@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+#xdotool mousemove --screen 2 1000 100 click 1
+
+wmctrl -a "Shelix - SHELIX"

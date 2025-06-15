@@ -1,0 +1,47 @@
+#!/usr/bin/bash
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+# Modify that file to your need!
+# Examples are given in comment
+
+SESSION_PATH=$(session_path)
+
+echo "File watcher running: $(echo $SESSION_PATH)"
+
+while inotifywait -q --exclude 'shelix\.logs|\.git' -r -e modify $SESSION_PATH;
+  # If a pane has a mark, run the last command in that pane, again
+  if [ $(has_mark) == "1" ];then
+    tmux send-keys -t '~' UP ENTER
+  fi
+
+  # Depending what we are doing, we may want to leave a tempo here
+  # sleep 1.8 # 1800ms
+
+  # Reload all files in all instances of Helix in the window
+  do echo ':rla' | dispatch_all_hx
+
+  # Inform user (YOU!) with a 2s popup
+  # notify "Files reloaded" 2
+
+  # Inform using a status bar message
+  tmux display-message 'Files reloaded'
+  # tmux show-message 'Files reloaded'
+done;
+

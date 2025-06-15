@@ -1,0 +1,90 @@
+#!/usr/bin/bash
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+# We do feed the original path via $1, till the tmux session is attached
+# SHELIXSESSIONDIR is not available yet at this point of the boot sequence
+
+if [ -n "$1" ]; then
+  SESSIONDIR="$1"
+else 
+  SESSIONDIR="$SHELIXSESSIONDIR"
+fi
+
+# tmux killp -a
+# tmux respawnp 
+
+# sleep 3
+
+tmux_theme $SHELIXPATH/themes/greenscreen.dark.json --window
+
+
+tmux split-window -h 
+sleep 0.1
+
+# sleep 1
+# tmux send-keys C-c
+# sleep 1 
+# tmux send-keys -t 0 "q" Enter
+# sleep 1
+tmux send-keys " unimatrix" Enter
+# sleep 1 
+
+
+
+# tmux selectp -L && tmux killp
+
+tmux killp -t 0
+sleep 1
+tmux selectp -t 0
+sleep 1
+
+tmux display-popup "shelix"
+
+
+# tmux selectp -L && tmux killp
+# sleep 1 
+
+# tmux split-window -h 
+# tmux split-window -t 1 -v 
+# tmux split-window -t 2 -h 
+
+
+# tmux select-pane -t 1 -T hx # Give focus on first pane and give title
+
+# tmux resize-pane -t 0 -x 16%
+# tmux resize-pane -t 1 -x 84%
+
+# tmux resize-pane -t 2 -y 10%
+
+# sleep 0.8
+
+# for i in {0..1}
+# do
+  # tmux send-keys -t 0 " cd $SESSIONDIR && clear" Enter
+# done
+
+# sleep 1
+# tmux send-keys -t 0 "unimatrix" Enter
+# sleep 3
+
+# tmux display-popup "shelix"
+
+
+

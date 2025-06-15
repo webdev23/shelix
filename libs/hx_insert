@@ -1,0 +1,50 @@
+#!/bin/bash
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+# Insert text at the cursor position
+# Works only on a marked pane to make sure we insert on the good place
+# Insert in a regular shell or into Helix
+
+# We may want to insert a whole file content
+if [ $(has_mark) == "1" ] && [ -z "$2" ];then
+  running=($(tmux selectp -t '~' && tmux display -p -F '#{pane_current_command}'))
+  if [ $running == "hx" ];then
+    tmux send -t '~' Escape && tmux send -t '~' ":insert-output cat $1" ; sleep 0.2 ; tmux send -t '~' Enter
+  else
+    tmux send -t '~' "$(cat $1)"
+  fi
+  
+else
+  tmux display-message "Mark the pane to insert text with <prefix> m"
+fi
+
+
+# We flag $2 to insert as text
+if [ $(has_mark) == "1" ] && [ -n "$2" ];then
+  running=($(tmux selectp -t '~' && tmux display -p -F '#{pane_current_command}'))
+  if [ $running == "hx" ];then
+    tmux send -t '~' Escape && sleep 0.5 && tmux send -t '~' "i" ; sleep 0.2 ; tmux send -t '~' "$1"
+  else
+    tmux send -t '~' "$(echo $1)"
+  fi
+  
+else
+  tmux display-message "Mark the pane to insert text with <prefix> m"
+fi

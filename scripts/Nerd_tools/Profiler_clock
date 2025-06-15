@@ -1,0 +1,3 @@
+#!/bin/bash
+
+tmux split-window -vb "tmux resizep -y 1; clock"

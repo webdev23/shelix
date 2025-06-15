@@ -1,0 +1,238 @@
+#!/usr/bin/php -d memory-limit=1024M
+<?php
+/*
+╔-----------------------------------------------------------------------╗
+║                                                                       ║
+║ This file is part of the Shelix IDE.                                  ║
+║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+║                                                                       ║
+║ This program is free software: you can redistribute it and/or modify  ║
+║ it under the terms of the GNU General Public License as published by  ║
+║ the Free Software Foundation, either version 3 of the License, or     ║
+║ (at your option) any later version.                                   ║
+║                                                                       ║
+║ This program is distributed in the hope that it will be useful,       ║
+║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+║ GNU General Public License for more details.                          ║
+║                                                                       ║
+║ You should have received a copy of the GNU General Public License     ║
+║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+╚-----------------------------------------------------------------------╝*/
+
+$cwd = getcwd();
+
+require dirname(__FILE__) . "/libs/php/shelix_cli_utils.php";
+require dirname(__FILE__) . "/libs/php/shelix_buffer.php";
+
+$LIST = [];
+
+$BASE = [];
+
+$folderPath = dirname(__FILE__) . "/scripts";
+
+$files = array_diff(scandir($folderPath), ["..", "."]);
+chmod($folderPath, 0750);
+
+$LIST_ = array_merge($BASE, $files);
+
+if (array_key_exists(1, $argv) && $argv[1] === "-f") {
+    $LIST_ = file($argv[2], FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    $LIST_ = array_map("trim", $LIST_);
+    $folderPath = dirname(__FILE__);
+    Buffer::$ONSELECTIONEXIT = true;
+    Buffer::$FORCECWD = true;
+}
+
+MAIN:
+
+Buffer::$EXECUTIONPATH = "$cwd/scripts";
+Buffer::$HEADERS = [str_repeat(" ", abs(Nox::$W - 5) )];
+
+$ACTIONS = [];
+
+consoleResize();
+
+for ($i = 0; $i < count($LIST_); $i++) {
+    $el = icon($folderPath . "/" . $LIST_[$i]) . $LIST_[$i];
+    $LIST[$i] = $el . str_repeat(" ", abs(Nox::$W));
+}
+
+if (Nox::$W > 2) {
+    $IN = new Buffer($LIST, Nox::$W, Nox::$H - 1, 0, 0, 0);
+
+    system("clear");
+} else {
+    echo "\033[c";
+
+}
+
+$ACTIONS[] = trim(@array_values($LIST_)[Buffer::$SELECTION]);
+$ACTION = $ACTIONS[0];
+
+if ($ACTION != "") {
+    dispatch("/" . $ACTION);
+    $ACTIONS = [];
+}
+
+if (Buffer::$ONSELECTIONEXIT === true) {
+    exit();
+}
+
+goto MAIN;
+
+function isJson($string)
+{
+    json_decode($string);
+    return json_last_error() === JSON_ERROR_NONE;
+}
+
+function isLinked($string, $array)
+{
+    return array_reduce(
+        $array,
+        function ($carry, $item) use ($string) {
+            return $carry || strpos($string, $item) !== false;
+        },
+        false
+    );
+}
+
+function icon($path)
+{
+    switch (true) {
+        case is_file($path) && is_executable($path):
+            return "🔷 ";
+        case is_link($path) && is_dir($path):
+            return "💾 "; // 🟠🟡🟢🟣🟤🟥🟦🟧🟨🟩🟪🟫 🔷🔸🔹🔺🔻🩵🩶🩷💙💚💛💜   but large icons will cause trouble 🗃️
+        case is_dir($path):
+            return "📁 "; // 💻💼💽💾💿📀📁📂📃📄📅📆📇📈📉📊📋📌📍📎📏📐📑📒📓📔📕📖📗📘📙📚📛📜📝
+        case is_link($path):
+            return "🔗 ";
+        case is_file($path) && !is_executable($path):
+            return "☰ ";
+        default:
+            return "• ";
+    }
+}
+
+function dispatch($ACTION)
+{
+    $cwd = dirname(__FILE__);
+    Buffer::$HEADERS = [$ACTION];
+    Buffer::$EXECUTIONPATH = "$cwd/scripts$ACTION";
+
+    if (is_link("$cwd/scripts$ACTION")) {
+        Buffer::$LINKS[] = "$cwd/scripts$ACTION";
+    }
+
+    if (
+        is_file("$cwd/scripts$ACTION") &&
+        is_executable("$cwd/scripts$ACTION") &&
+        !isLinked("$cwd/scripts$ACTION", Buffer::$LINKS)
+    ) {
+        $proc1 = proc_open(
+            "echo '@ $ACTION' >> $cwd/shelix.logs && $cwd/scripts$ACTION 2>> $cwd/shelix.logs",
+            [["pipe", "r"], ["pipe", "w"], ["pipe", "w"]],
+            $pipes
+        );
+        $response = trim(stream_get_contents($pipes[1]));
+        if (isJson($response)) {
+            $sub = [];
+            $sub_ = json_decode($response, true);
+            echo "\033c";
+            Buffer::$FORCESORT = 0;
+
+            if ($sub_[count($sub_) - 1] === "🚀") {
+                Buffer::$EXECUTESELECTION = true;
+                Buffer::$EXECUTIONPATH = "$cwd/scripts$ACTION";
+                array_pop($sub_);
+            }
+
+            for ($i = 0; $i < count($sub_); $i++) {
+                $el = icon("$cwd/scripts$ACTION/" . $sub_[$i]) . $sub_[$i];
+                $sub[$i] = $el . str_repeat(" ", abs(Nox::$W));
+            }
+
+            $IN = new Buffer($sub, Nox::$W, Nox::$H, 0, 0, 0);
+
+            Buffer::$EXECUTESELECTION = false;
+
+            if (Buffer::$SELECTION !== "") {
+                $SEL = trim(explode(" ", $sub[Buffer::$SELECTION], 2)[1]);
+                exec(
+                    "echo '@ $ACTION' >> $cwd/shelix.logs && $cwd/scripts$ACTION '$SEL' </dev/null 2>> $cwd/shelix.logs 2>&1 &"
+                );
+            }
+            echo "\033c";
+        }
+    }
+
+    if (is_dir("$cwd/scripts$ACTION")) {
+        $d = [];
+        $d_ = array_values(
+            array_diff(scandir("$cwd/scripts$ACTION"), ["..", "."])
+        );
+
+        for ($i = 0; $i < count($d_); $i++) {
+            $el = icon("$cwd/scripts$ACTION/" . $d_[$i]) . $d_[$i];
+            $d[$i] = $el . str_repeat(" ", abs(Nox::$W));
+        }
+
+        $IN = new Buffer($d, Nox::$W, Nox::$H - 1, 0, 0, 0);
+        if (array_key_exists(Buffer::$SELECTION, $d_)) {
+            dispatch("$ACTION/" . $d_[Buffer::$SELECTION]);
+        }
+    }
+
+    if (
+        is_file("$cwd/scripts$ACTION") &&
+        !is_executable("$cwd/scripts$ACTION") &&
+        is_readable("$cwd/scripts$ACTION") &&
+        filesize("$cwd/scripts$ACTION") < 104857600
+    ) {
+        exec(
+            "open_file '$cwd/scripts$ACTION' </dev/null 2>> $cwd/shelix.logs 2>&1 &"
+        );
+    }
+
+    if (isLinked("$cwd/scripts$ACTION", Buffer::$LINKS)) {
+        $lnreal = realpath("$cwd/scripts$ACTION");
+
+        Buffer::$EXECUTIONPATH = $lnreal . "$ACTION";
+    }
+}
+
+pcntl_async_signals(true);
+pcntl_signal(SIGINT, "shutdown");
+
+shutdown();
+
+function shutdown()
+{
+    fwrite(STDERR, "SHUTDOWN \n");
+
+    echo "\e[?1000l";
+
+    system("tmux popup -C && tput cnorm && stty echo");
+    $H = (int) exec("tput lines");
+
+    if (Buffer::$ONSELECTIONEXIT === true) {
+        echo @trim(substr(Buffer::$LSCACHE[Buffer::$SELECTION], 4));
+        exit();
+    }
+    posix_kill(`pgrep -n [watcher]`, 9);
+    if (getenv("TERM_PROGRAM") === "tmux") {
+        if (strlen(getenv("TMUX_PANE")) === 0) {
+            system("tmux display-popup -C");
+        } else {
+            echo "\nREGULAR PANE KILL\n";
+
+            system("tmux respawn-pane -k");
+        }
+    } else {
+        echo "Not within tmux\n";
+        exit();
+    }
+}
+

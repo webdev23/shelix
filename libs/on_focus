@@ -1,0 +1,69 @@
+#!/usr/bin/php
+<?php
+/*
+╔-----------------------------------------------------------------------╗
+║                                                                       ║
+║ This file is part of the Shelix IDE.                                  ║
+║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+║                                                                       ║
+║ This program is free software: you can redistribute it and/or modify  ║
+║ it under the terms of the GNU General Public License as published by  ║
+║ the Free Software Foundation, either version 3 of the License, or     ║
+║ (at your option) any later version.                                   ║
+║                                                                       ║
+║ This program is distributed in the hope that it will be useful,       ║
+║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+║ GNU General Public License for more details.                          ║
+║                                                                       ║
+║ You should have received a copy of the GNU General Public License     ║
+║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+╚-----------------------------------------------------------------------╝*/
+
+/* That file is PHP because handling command line parameters efficiently
+* in BASH, is the limit. That would be too verbose and inneficient.
+* https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
+* However using core PHP, it's readable and works everywhere, we could easily get
+* composition of params like -x 50%, and flags like --wow
+
+* on_focus -x 50% -y 80% --wow 
+*/
+
+/* PAne title */
+ob_start();
+$pane = system("tmux display-message -p '#T'");
+ob_end_clean();
+
+// system("tmux display-message '$pane'");
+
+$discard = ""; // We may want to exclude a particular pane, by title 
+// -n param exists
+// Specify a pane to discard from -x and -y 
+if (array_search("-n", $argv) != false) {
+    // system("notify '$discard'");
+    if ($argv[array_search("-n", $argv) + 1] != "") {
+        $discard = $argv[array_search("-n", $argv) + 1];
+    }
+}
+
+// -x param exists
+if (array_search("-x", $argv) != false) {
+    if ($argv[array_search("-x", $argv) + 1] != "") {
+        $x = $argv[array_search("-x", $argv) + 1];
+        if ($pane != $discard) {
+            exec("tmux resizep -x $x </dev/null > /dev/null 2>&1 &");
+        }
+    }
+}
+
+
+/* -y param exists */
+if (array_search("-y", $argv) != false) {
+    if ($argv[array_search("-y", $argv) + 1] != "") {
+        $y = $argv[array_search("-y", $argv) + 1];
+        // system("tmux display-message '$pane'");
+        if ($pane != $discard) {
+            exec("tmux resizep -y $y </dev/null > /dev/null 2>&1 &");
+        }
+    }
+}

@@ -1,0 +1,50 @@
+#!/bin/bash  
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+
+function recents() {
+  
+  list=$(rg --files --stats "$1" \
+    | xargs -d "\n" stat --format="%Y %n" 2>/dev/null \
+    | sort -r \
+    | sed "s|$1/||" \
+    | head -n 100 \
+    | cut -d" " -f2- \
+    | cut -c1-)
+
+  json=$(echo "$list" | jq -R -s 'split("\n") | map(select(. != ""))')
+
+  echo $json
+}
+
+# Alternatively, retrieves the original path of this session in the logs
+# SESSION="$(tmux display-message -p '#S')"
+# TARGET=$(rg "=== New Session === $SESSION" shelix.logs | tail -n1 | cut -d'=' -f7 | cut -d' ' -f3)
+
+TARGET=$(session_path)
+
+# notify "$SESSION $TARGET"
+
+if [ -n "$1" ]; then
+  FILE="$TARGET/$1"
+  open_file "$FILE"    
+else
+  recents "$TARGET"
+fi

@@ -1,0 +1,9 @@
+#!/bin/bash
+STATUSBAR=$(tmux display -p '#{pane-border-status}')
+
+
+if [ $STATUSBAR == 'bottom' ] || [ $STATUSBAR == 'top' ];then
+  tmux setw pane-border-status  'off'
+else
+  tmux setw pane-border-status  'bottom'
+fi

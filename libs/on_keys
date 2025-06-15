@@ -1,0 +1,55 @@
+#!/bin/bash
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+# tmux set-hook -g pane-focus-out "run 'echo O #{pane_id} $(date) >>/tmp/focus'"
+# tmux set-hook -g pane-focus-in[1] "run 'echo #{pane_index} $(date) >> /tmp/focus'"
+focused=$(cat /tmp/focused | tr -d '\n')
+
+# notify "focused: $focused"
+
+# tmux
+
+titles=($(tmux list-panes -F '#T'))
+
+
+# notify "titles: $titles"
+
+
+
+
+
+
+for index in "${!titles[@]}"; do
+  # tmux selectp -d -t ":.$index"
+  if [ "${titles[$index]}" == "Keys" ]; then
+          # notify "Keys pane id: $index"
+     tmux select-pane -e -t ":.$index"
+  else    
+    tmux selectp -d -t ":.$index"
+  fi
+done
+
+# notify "tmux display '#{pane_id}')"
+
+# Activate current pane
+# tmux select-pane -t $focused -e
+
+# tmux set-hook pane-focus-in[1] "run 'echo #{pane_index} > /tmp/focused'"
+# tmux set-hook pane-focus-out[2] $(on_keys)

@@ -1,0 +1,92 @@
+#!/usr/bin/bash
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+# We do feed the original path via $1, till the tmux session is attached
+# SHELIXSESSIONDIR is not available yet at this point of the boot sequence
+
+if [ -n "$1" ]; then
+  SESSIONDIR="$1"
+else 
+  SESSIONDIR="$SHELIXSESSIONDIR"
+fi
+
+
+
+
+tmux split-window -h 
+
+tmux resize-pane -t 0 -x 16%
+
+tmux send-keys -t 0 "shelix" Enter
+
+tmux selectp -t 1 
+
+while IFS= read -r command; do
+  tmux selectp -D
+  tmux split-window -v 
+  tmux send-keys "cd $SESSIONDIR && clear" Enter
+  sleep 0.2
+  tmux send-keys "$command" Enter
+done < "/tmp/commands.txt"
+
+tmux killp -t 1
+# tmux resize-pane -t 0 -x 10
+# tmux resize-pane -t 1 -x 80
+# tmux split-window -t 1 -v 
+# tmux resize-pane -t 1 -y 90%
+# tmux split-window -t 2 -h 
+# cd_panes
+# tmux send-keys -t 2 "" Enter
+# tmux send-keys -t 3 "" Enter
+
+# sleep 0.4
+
+
+# for i in {0..3}
+# do
+#   tmux send-keys -t $i " cd $SHELIXSESSIONDIR && clear" Enter
+# done
+
+# sleep 5
+
+# tmux select-pane -t 1 -T hx # Give focus on first pane and give title
+
+# tmux resize-pane -t 0 -x 16%
+# tmux resize-pane -t 1 -x 84%
+
+# tmux resize-pane -t 2 -y 6
+
+# sleep 0.8
+
+# for i in {0..3}
+# do
+  # tmux send-keys -t $i " cd $SESSIONDIR && clear" Enter
+# done
+
+
+# sleep 0.8
+
+# tmux send-keys -t 0 "shelix" Enter
+# tmux send-keys -t 1 "man php" Enter
+
+# tmux resize-pane -t 2 -y 6
+
+# sleep 1
+# save_layout

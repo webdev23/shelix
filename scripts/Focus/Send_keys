@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# List available panes in all sessions and send keys
+
+if [ -n "$1" ]; then
+    tmux display-popup -h 3 -w 33% -E "echo '\033[7;5;1m Send keys:\e[0m \c'; read send ; tmux send -t $1 \"\$send\" Enter ; rm /tmp/send.txt"
+    # tmux send -t $1 $(cat /tmp/send.txt)
+    # Close the popup, if it's one
+    if [ -z "$TMUX_PANE" ]; then
+      tmux display-popup -C
+    fi
+else
+    pane_ids=()
+
+    for id in $(tmux list-panes -aF "#{pane_id}" | tr -d '%'); do
+    # for id in $(tmux list-panes -aF "#S.#D"); do
+        pane_ids+=("$id")
+    done
+
+    # Convert array to JSON
+    json_array=$(printf '"%s",' "${pane_ids[@]}" | sed 's/,$//')
+
+    echo "[$json_array]"
+    
+fi
+
+
+

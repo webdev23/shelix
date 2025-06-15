@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# This script dispatch the focus on multiple tmux sessions
+# A session on the right must ends with _R in the session name 
+#                  left                 _L
+
+# We can't test if a pane is at foremost right, but:
+# we can get the pane's position and the total width of the window
+pane_position=$(tmux display-message -p '#{pane_right}')
+window_width=$(tmux display-message -p '#{window_width}')
+
+# no_op() {}
+
+
+# Check if the pane is at the rightmost position
+if [ "$pane_position" -eq "$window_width" ] || [ "$pane_position" -eq "$((window_width - 1))" ]; then    # Get the current session name
+    session=$(tmux display-message -p '#{session_name}')
+    # tmux display-message "rightmost $session"
+
+    # Check if the session name contains "_L"
+    if [[ $session == *_L* ]]; then
+        # tmux display-message "Is _L session"
+        # We are in a _L session, jump to the central
+        wmctrl -a "Shelix - ${session::-2}"
+    fi
+
+    if [[ $session == *_R* ]]; then
+        # We are on the rightmost pane of the rightmost session 
+        # echo "Session name does contain '_R'."
+        : # Null command does nothing
+        # tmux display-message "So much on the right..."
+        # Implement cycle trough here (or not!)
+    fi
+
+    if [[ $session != *_L* ]] && [[ $session != *_R* ]];then
+       # We are in the rightmost pane of a regular -not extended - session
+        # tmux display-message "This is not an extended session"
+        # We are in a _R session, jump to the central
+        # jump to a _L session
+        if tmux has-session -t "${session}_R" 2>/dev/null; then
+            # echo "Session ${session}_R exists"
+            # sleep 0.8
+            # tmux display-message "Jumping to ${session}_R"
+            # xdotool key F8 # For example F8 is assigned in barrier to switch to the PC on the right
+            # : # null
+            wmctrl -a "Shelix - ${session}_R" # Move focus to right session
+        else
+            : # Null command avoid errors
+            # tmux display-message "No ${session}_R in sight"
+            # echo "Session _R does not exist"
+        fi
+    fi
+else
+    # as regular
+    # tmux display-message "Just jumping around"
+    tmux select-pane -R
+fi

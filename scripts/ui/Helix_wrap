@@ -1,0 +1,39 @@
+#!/bin/bash
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+# Enable/disable soft-wrap in Helix, globally
+# In the intent to paliate at the lack of this function within Helix :commands
+
+# That file does read the Helix config
+# And the scripts hx_wrap and hx_unwrap are going to edit it.
+# That is the limit, as it may leads to bugs and may breaks the user config file. 
+# The user config may not have the option editor.soft-wrap configured, and in this case this script will fail silently.
+# Handling the above case seems uncessary and may lead to troubles.
+
+wrap_enabled=$(awk '/^\[editor.soft-wrap\]/,/^$/{if ($1 == "enable") print $3}' ~/.config/helix/config.toml)
+
+if [ $wrap_enabled == "false" ];then
+  hx_wrap
+else
+  hx_unwrap
+fi 
+
+# Force redraw all instances
+echo ":redraw" | dispatch_all_hx

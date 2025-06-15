@@ -1,0 +1,42 @@
+#!/usr/bin/bash
+# ╔-----------------------------------------------------------------------╗
+# ║                                                                       ║
+# ║ This file is part of the Shelix IDE.                                  ║
+# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║                                                                       ║
+# ║ This program is free software: you can redistribute it and/or modify  ║
+# ║ it under the terms of the GNU General Public License as published by  ║
+# ║ the Free Software Foundation, either version 3 of the License, or     ║
+# ║ (at your option) any later version.                                   ║
+# ║                                                                       ║
+# ║ This program is distributed in the hope that it will be useful,       ║
+# ║ but WITHOUT ANY WARRANTY; without even the implied warranty of        ║
+# ║ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         ║
+# ║ GNU General Public License for more details.                          ║
+# ║                                                                       ║
+# ║ You should have received a copy of the GNU General Public License     ║
+# ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
+# ╚-----------------------------------------------------------------------╝
+
+
+
+tmux split-window -t 0 -h 
+tmux split-window -t 1 -h
+tmux split-window -t 2 -h
+# tmux split-window -t 1 -h 
+
+tmux resize-pane -t 0 -x 16%
+tmux resize-pane -t 1 -x 30%
+tmux resize-pane -t 2 -x 40%
+
+tmux send-keys -t 0 "shelix" Enter
+tmux send-keys -t 1 "hx" Enter
+tmux send-keys -t 2 "hx" Enter
+# tmux send-keys -t 3 "" Enter
+# tmux send-keys -t 4 "hx" Enter
+tmux select-pane -t 1 -T 'hx'
+tmux select-pane -t 2 -T 'hx'
+tmux select-pane -t 3 -T 'hx'
+# tmux select-pane -t 4 -T 'hx'
+
+tmux resize-pane -t 0 -x 20
