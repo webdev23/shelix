@@ -1,0 +1,14 @@
+#!/bin/bash
+
+while true; do
+    if [ -n "$TMUX" ]; then
+        # Get the PID of the foreground process in the current pane
+        FG_PID=$(ps -o pid= -o stat= -o comm= | grep '^[^ ]* [^ ]* [[:alnum:]]* ' | awk '$2 ~ /[[:alnum:]]/ {print $1}' | head -n 1)
+        FG_CMD=$(ps -p $FG_PID -o comm= 2>/dev/null)  # Get the command name
+        
+        if [ -n "$FG_CMD" ] && [ "$FG_CMD" != "zsh" ] && [ "$FG_CMD" != "bash" ]; then  # Skip shells
+            tmux select-pane -T "Running: $FG_CMD"
+        fi
+    fi
+    sleep 1  # Check every second; adjust for performance
+done

@@ -27,9 +27,6 @@ else
   SESSIONDIR="$SHELIXSESSIONDIR"
 fi
 
-
-
-
 tmux split-window -h 
 
 tmux resize-pane -t 0 -x 16%
@@ -41,7 +38,7 @@ tmux selectp -t 1
 while IFS= read -r command; do
   tmux selectp -D
   tmux split-window -v 
-  tmux send-keys "cd $SESSIONDIR && clear" Enter
+  tmux send-keys "export PATH=$PATH:$SHELIXPATH/libs/:$PATH ; cd $SESSIONDIR && clear" Enter
   sleep 0.2
   tmux send-keys "$command" Enter
 done < "/tmp/commands.txt"

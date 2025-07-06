@@ -20,28 +20,58 @@
 
 # Modify that file to your need!
 # Examples are given in comment
+#sudo apt install inotify-tools
 
-SESSION_PATH=$(session_path)
+
+SESSION_PATH=$($SHELIXPATH/libs/session_path)
 
 echo "File watcher running: $(echo $SESSION_PATH)"
+EXCLUDE_FILE="$SESSION_PATH/.exclude"
 
-while inotifywait -q --exclude 'shelix\.logs|\.git' -r -e modify $SESSION_PATH;
-  # If a pane has a mark, run the last command in that pane, again
-  if [ $(has_mark) == "1" ];then
-    tmux send-keys -t '~' UP ENTER
-  fi
+# Base excludes
+EXCLUDE_PATTERNS="shelix\.logs|\.git"
+
+# Add excludes from .exclude
+if [[ -f "$EXCLUDE_FILE" ]]; then
+  while IFS= read -r line; do
+    [[ -z "$line" || "$line" =~ ^# ]] && continue
+    escaped=$(echo "$line" | sed -e 's/\./\\./g' -e 's/\//\\\//g')
+    EXCLUDE_PATTERNS+="|$escaped"
+  done < "$EXCLUDE_FILE"
+  echo "Found local .exclude file!"
+fi
+
+
+# Debug: 
+echo -e "Excluded \033[7m$EXCLUDE_PATTERNS\e[0m"
+
+
+echo "File watcher running in $(echo $SESSION_PATH)"
+
+
+# Watch loop
+while read -r DIR EVENT FILE; do
+  FULL_PATH="${DIR}${FILE}"
+  echo -e "File modified: \033[7m$FULL_PATH\e[0m"
 
   # Depending what we are doing, we may want to leave a tempo here
-  # sleep 1.8 # 1800ms
+   sleep 1 # 1000ms
 
   # Reload all files in all instances of Helix in the window
-  do echo ':rla' | dispatch_all_hx
+  echo ':rla' | $SHELIXPATH/libs/dispatch_all_hx
 
   # Inform user (YOU!) with a 2s popup
   # notify "Files reloaded" 2
 
   # Inform using a status bar message
   tmux display-message 'Files reloaded'
-  # tmux show-message 'Files reloaded'
-done;
+
+  if [ "$($SHELIXPATH/libs/has_mark)" == "1" ]; then
+    tmux send-keys -t '~' UP ENTER
+  fi
+done < <(inotifywait --format '%w %e %f' --exclude "$EXCLUDE_PATTERNS" -r -e modify "$SESSION_PATH")
+
+$SHELIXPATH/libs/watcher
+
+
 

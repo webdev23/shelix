@@ -41,7 +41,7 @@ tmux resize-pane -t 6 -x 35%
 
 for i in {0..10}
 do
-  tmux send-keys -t $i "cd $SHELIXSESSIONDIR" Enter
+  tmux send-keys -t $i "source $SHELIXPATH/env/shelix.conf.sh ; cd $SHELIXSESSIONDIR" Enter
 done
 
 # tmux send-keys -t 1 "cd $SHELIXSESSIONDIR" Enter

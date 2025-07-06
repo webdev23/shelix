@@ -18,6 +18,6 @@
 # ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
 # ╚-----------------------------------------------------------------------╝
 
-pop 'echo "\033[7;5;1m Search in all files:\e[0m \c"; read search && unbuffer rg $search | less -R; echo "Warning you may loose data (Ctrl + c to abort)\n\033[7;5;1m Replace by:\e[0m \c" ; read replace && rg -l "$search" | xargs sed -i "s/$search/$replace/g" ; unbuffer rg $search | less -R'
+pop 'echo -e "\033[7;5;1m Search in all files:\e[0m \c"; read search && unbuffer rg $search | less -R; echo -e "Warning you may loose data (Ctrl + c to abort)\n\033[7;5;1m Replace by:\e[0m \c" ; read replace && rg -l "$search" | xargs sed -i "s/$search/$replace/g" ; unbuffer rg $search | less -R'
 
 

@@ -27,16 +27,16 @@ openfile(){
   MARKED=$(tmux display -p -t '~' '#D')
     if [ -n "$MARKED" ]; then
       tmux send-keys -t '~' Escape
-      tmux send-keys -t '~' ":o $FILE" ENTER
+      tmux send-keys -t '~' ":o $FILE" Enter
       exit  
   fi
 
   # Check if ran from inside a popup
-  # if [ -z "$TMUX_PANE" ]; then
-  #   tmux send-keys Escape
-  #   tmux send-keys ":o $FILE" ENTER
-  #   exit
-  # fi
+  if [ -z "$TMUX_PANE" ]; then
+    tmux send-keys Escape
+    tmux send-keys ":o $FILE" ENTER
+    exit
+  fi
 
   # That window has no editors, create one
   if [ $(has_editor) == "0" ];then
@@ -46,15 +46,15 @@ openfile(){
     tmux select-pane -L # Focus back to left pane
     tmux resizep -x 16%
     sleep 0.2
+    exit
   fi
 
-
-
-  # notify "$FILE"
-  # Or use the first editor, we can use to_last_hx
-  tmux send-keys -t $(to_first_hx) Escape
-  tmux send-keys -t $(to_first_hx) ":o $FILE" ENTER
-  
+  # we could use to_last_hx here as well
+  hx=$(to_first_hx)
+  # notify "$FILE" 0.5
+  tmux send-keys -t "$hx" Escape
+  tmux send-keys -t "$hx" ":o $FILE" ENTER
+  tmux selectp -t "$hx"
 }
 
 openfile

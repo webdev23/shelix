@@ -18,4 +18,4 @@
 # ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
 # ╚-----------------------------------------------------------------------╝
 
-pop 'echo "\033[7;5;1m Search in ~/:\e[0m \c"; read search && unbuffer rg --hidden $search / | less -R'
+pop 'echo -e "\033[7;5;1m Search in ~/:\e[0m \c"; read search && unbuffer rg --hidden $search / | less -R'

@@ -18,11 +18,15 @@
 # ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
 # ╚-----------------------------------------------------------------------╝
 
+#THEME="eighties.dark"
+
 export SHELIXPATH=$(dirname $(readlink -f $0))
 
-export PATH="$SHELIXPATH/libs/:$PATH"
+export PATH=$PATH:"$SHELIXPATH"/libs/:$PATH
 
 source $SHELIXPATH/env/utils.sh
+
+source $SHELIXPATH/env/shelix.conf.sh
 
 USESESSION="$1"
 
@@ -118,7 +122,7 @@ fi
 # Parse commands -c 
 rm /tmp/commands.txt 2> /dev/null
 COMMANDS=""
-THEME="Muzieca_mono"
+
 
 # Commands feed
 while [[ $# -gt 0 ]]; do
@@ -136,7 +140,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         --theme) # Adding the new condition for --theme
             if [[ -n $2 && $2 != -* ]]; then
-                THEME="$2"
+                SHELIX_THEME="$2"
             else
                 echo "Error: Missing or invalid value for --theme parameter."
                 exit 1
@@ -202,21 +206,21 @@ else
                 logs "=== Session killed === $session_name"  
                 printf '\033]2;%s\033\\' "Shelix - $session_name" # Terminal title
                 echo "Killing and starting a new session..."
-                pwn "$session_name" "$session_path" "$COMMANDS" "$THEME"
+                pwn "$session_name" "$session_path" "$COMMANDS" "$SHELIX_THEME"
                 ;;
             "R" | "r")
                 # user pressed R/r
                 echo "Extending session on the right..."
                 logs "=== Extend session on right === $session_name $PWD"
                 printf '\033]2;%s\033\\' "Shelix - $session_name"_R # Terminal title
-                pwn "$session_name"_R "$session_path" "$COMMANDS" "$THEME"
+                pwn "$session_name"_R "$session_path" "$COMMANDS" "$SHELIX_THEME"
                 ;;
             "L" | "l")
                 # user pressed L/l
                 echo "Extending session on the left..."
                 logs "=== Extend session on left === $session_name $PWD"
                 printf '\033]2;%s\033\\' "Shelix - $session_name"_L # Terminal title
-                pwn "$session_name"_L "$session_path" "$COMMANDS" "$THEME"
+                pwn "$session_name"_L "$session_path" "$COMMANDS" "$SHELIX_THEME"
                 ;;
             *)
                 # user pressed ENTER
@@ -230,7 +234,7 @@ else
     else
         logs "=== New Session === $session_name $PWD"
         printf '\033]2;%s\033\\' "Shelix - $session_name" # Terminal title
-        pwn "$session_name" "$session_path" "$COMMANDS" "$THEME"
+        pwn "$session_name" "$session_path" "$COMMANDS" "$SHELIX_THEME"
     fi
 fi
 

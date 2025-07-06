@@ -23,11 +23,12 @@
 # Remove the hook as necessary
 # Using the hook array[100] force overwriting any hooks that may have been set on this window
 
+
 for i in {0..10}
 do
   tmux split-window -t $i -h
   # sleep 0.08 
-  # tmux send-keys -t $i "cd $SHELIXSESSIONDIR" Enter
+  tmux send-keys -t $i "source $SHELIXPATH/env/shelix.conf.sh ; cd $SHELIXSESSIONDIR" Enter
 done
 
 # sleep 0.2 

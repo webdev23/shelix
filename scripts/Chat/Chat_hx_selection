@@ -1,0 +1,51 @@
+#!/bin/bash
+
+
+#STDIN=$(while IFS= read -r line; do echo "$line" ; done)
+
+
+tmux send-keys -t $(tmux display-message -p '#P') ":clipboard-yank-join" Enter
+#sleep 0.1
+#tmux send-keys -t $(tmux display-message -p '#P') "d" Enter
+sleep 0.1
+tmux send-keys -t $(tmux display-message -p '#P') "o" Enter
+sleep 0.1
+
+# xclip -o > /tmp/clip.txt
+
+# STDIN="$(cat /tmp/clip.txt)"
+
+# Debugging: Log to a file
+#logfile="debug.log"
+#echo "" > "$logfile"  # Clear the log file
+
+line=""
+
+# Run the program and process chunks of output
+stdbuf -o0 xclip -selection clipboard -o | pipe_chat | while IFS='' read -r chunk || [[ -n "$chunk" ]]; do
+    # Log the raw chunk for debugging
+    #echo "Chunk received: [$chunk]" >> "$logfile"
+
+    # Append the chunk to the current line
+    line+="$chunk"
+    #tmux send-keys -t 0.1 "$line" Right Enter
+    # Log the current state of the line
+    #echo "Current line: [$line]" >> "$logfile"
+
+    # Check if the chunk contains a newline (end of the line)
+    if [[ "$chunk" != *$'\n'* ]]; then
+        # Send the complete line to tmux
+        tmux send-keys -t $(tmux display-message -p '#P') "$line" Enter Home
+        #echo "Sent to tmux: [$line]" >> "$logfile"
+        # Clear the line after sending
+        line=""
+    fi
+done
+
+# If there's any leftover text in the buffer, send it
+if [[ -n "$line" ]]; then
+    tmux send-keys -t $(tmux display-message -p '#P') "$line" Enter
+    #echo "Sent leftover to tmux: [$line]" >> "$logfile"
+fi
+
+tmux send-keys -t $(tmux display-message -p '#P') Escape

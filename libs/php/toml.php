@@ -21,7 +21,7 @@
 ╚-----------------------------------------------------------------------╝
 */
 
-$fileContent = file_get_contents('../config.toml');
+$fileContent = file_get_contents('/home/k33st/.config/alacritty/themes/midnight_haze.toml');
 $tokens = token_get_all('<?php ' . $fileContent);
 
 foreach ($tokens as $token) {

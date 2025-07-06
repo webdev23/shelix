@@ -1,0 +1,17 @@
+#!/bin/bash
+
+
+if [ -n "$1" ];then
+  FILE="${1}"
+fi
+  
+
+# k if ran from inside a popup
+if [ -z "$TMUX_PANE" ]; then
+  tmux send-keys Escape
+  yazi_embed
+  tmux send-keys ":o $FILE" ENTER
+  exit
+else
+  yazi_embed
+fi

@@ -22,18 +22,37 @@
 # if any pane in the window has a running instance of hx
 
 # Check panes instances
-running=($(tmux list-panes -F '#{pane_current_command}'))
 
-iseditor="0"
+running=($(tmux list-panes -F "#{pane_title}"))
+iseditor=""
 for index in "${!running[@]}"; do
-  if [ "${running[$index]}" = "hx" ]; then
-    iseditor="1" 
-  fi
+ if [[ "${running[$index]}" == *"hx"* ]]; then
+   iseditor="1"
+ fi
 done
-
-
-if [ $iseditor == "0" ];then
-  echo 0
+if [ $iseditor == "" ]; then
+ echo 
 else
-  echo 1
-fi 
+ echo 1
+fi
+
+
+
+
+
+# BUG 
+# running=($(tmux list-panes -F '#{pane_current_command}'))
+
+# iseditor="0"
+# for index in "${!running[@]}"; do
+#   if [ "${running[$index]}" = "hx" ]; then
+#     iseditor="1" 
+#   fi
+# done
+
+
+# if [ $iseditor == "0" ];then
+#   echo 0
+# else
+#   echo 1
+# fi 

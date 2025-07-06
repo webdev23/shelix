@@ -21,6 +21,7 @@
 # We do feed the original path via $1, till the tmux session is attached
 # SHELIXSESSIONDIR is not available yet at this point of the boot sequence
 
+
 if [ -n "$1" ]; then
   SESSIONDIR="$1"
 else 
@@ -43,7 +44,7 @@ sleep 0.1
 # sleep 1 
 # tmux send-keys -t 0 "q" Enter
 # sleep 1
-tmux send-keys " unimatrix" Enter
+tmux send-keys "source $SHELIXPATH/env/shelix.conf.sh ; unimatrix" Enter
 # sleep 1 
 
 

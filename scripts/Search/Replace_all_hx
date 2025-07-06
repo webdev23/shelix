@@ -18,4 +18,4 @@
 # ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
 # ╚-----------------------------------------------------------------------╝
 
-prompt 'echo "\033[7;5;1m Search all hx:\e[0m \c"; read search && echo "%s$search" | dispatch_all_hx ; clear ; echo "\033[7;5;1m Replace by:\e[0m \c" ; read replace && echo "c \b$replace\e" | dispatch_all_hx'
+prompt 'echo -e "\033[7;5;1m Search all hx:\e[0m \c"; read search && echo "%s$search" | dispatch_all_hx ; clear ; echo -e "\033[7;5;1m Replace by:\e[0m \c" ; read replace && echo "c \b$replace\e" | dispatch_all_hx'

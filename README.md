@@ -8,6 +8,7 @@ Since the Helix editor does not provide an API, controls are automated via keyst
 
 This toolsuite is made to allow the developer to keep full control over all aspects of his development environement, allowing further customisations without third party configurations, in the most straightforward way: shell scripts.
 
+
 The goal is to obtain the most of our keyboard with a symbiosis of tools that work well together. 
 
 [Contributions](https://github.com/webdev23/shelix/blob/main/CONTRIBUTING.md) and [suggestions](https://github.com/webdev23/shelix/discussions) are welcome! 
@@ -70,6 +71,24 @@ Files explorer (any of): lf, ranger, fzf (Adapting another one should be straigh
 `sudo apt install lf`
 
 </details>
+
+### Update: What's new?
+- Added global conf environnement for items such as themes.
+- Automatic source of environnement for all shells.
+- Fully reworked file watcher, now supports exclusive filtering by project directories using a `.exclude` file.  
+- Added support for vifm file explorer. 
+- Added support for superfile file explorer.
+- Dropped support for fzf (Could still be used like: `open-file $(fzf)`) from your own scripts.
+- Added AI chat and AI tools over local ollama.
+- Reworked menu items.
+- Reworked default theming.
+- Added mouse scrolling
+-  
+- Themes for Helix are now scanned from `~/.config/helix`.  
+- Various tiny bug fixes.
+
+
+
 
 <details open>
 <summary>👀

@@ -66,6 +66,13 @@ bind -T copy-mode-vi v send -X begin-selection
 bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -i -sel clipboard"
 bind P paste-buffer
 
+
+########################
+# AI TOOLS             #
+########################
+bind-key -n F1 run-shell "$SHELIXPATH/scripts/Chat/./Chat_hx_selection"
+
+
 ########################
 # Cycle trough windows #
 ########################
@@ -90,6 +97,12 @@ bind-key -n S-Right run-shell 'select_pane_left'
 ###################################
 bind M-Space run-shell 'save_layout'
 bind C-M-Space run-shell 'restore_layout'
+
+###############
+# Rename pane #
+###############
+bind < command-prompt -p "New Title: " -I "#{pane_title}" "select-pane -T '%%1'"
+
 
 #################
 # Multi cursors #
@@ -140,6 +153,12 @@ bind-key -n M-Tab display-menu -x 0% -y S \
 #set focus-events on
 #set-hook -g pane-focus-in "run 'echo I #{pane_id} $(date) >>/tmp/focus'; on_focus #{pane_id}"
 #set-hook -g pane-focus-out "run 'echo O #{pane_id} $(date) >>/tmp/focus'"
+
+
+# Pane title monitor
+#set-hook -g after-new-pane "run-shell 'tmux set remain-on-exit on; pane_title_monitor &'"
+#set-hook -g after-split-window "run-shell 'tmux set remain-on-exit on; pane_title_monitor &'"
+
 
 
 display-message -p 'Configuration succeed'

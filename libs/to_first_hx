@@ -18,12 +18,37 @@
 # ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
 # ╚-----------------------------------------------------------------------╝
 
-# Return the index of the first (oldest) editor in the current window
-hxs=($(tmux list-panes -F '#{pane_current_command}'))
-for index in "${!hxs[@]}"; do
-  if [ "${hxs[$index]}" = "hx" ]; then
-	echo $index
-	exit
+
+# List of pane titles
+running=($(tmux list-panes -F "#{pane_title}"))
+
+# Variable to check for the presence of the desired application
+iseditor=""
+
+# Loop through all pane titles
+for index in "${!running[@]}"; do
+  # Check if the title contains the string "hx"
+  if [[ "${running[$index]}" == *"hx"* ]]; then
+    iseditor="1"
   fi
 done
+
+# Print result
+if [ -z "$iseditor" ]; then
+  echo 
+else
+  echo 1
+fi
+
+
+
+# BUG
+# Return the index of the first (oldest) editor in the current window
+# hxs=($(tmux list-panes -F '#{pane_current_command}'))
+# for index in "${!hxs[@]}"; do
+#   if [ "${hxs[$index]}" = "hx" ]; then
+# 	echo $index
+# 	exit
+#   fi
+# done
 

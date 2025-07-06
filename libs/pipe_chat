@@ -1,0 +1,65 @@
+#!/usr/bin/php
+<?php
+// Redirect OLLAMA text stream
+
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+$ollamaEndpoint = "http://localhost:11434/api/generate"; // Ollama endpoint
+
+stream_set_blocking(STDIN, true);
+$ask = ""; // Will contain the multiline question
+// Read multiline input from STDIN
+while (FALSE !== ($line = fgets(STDIN))) {
+    $ask .= $line;
+}
+
+
+// ADJUST
+//$lang = $argv[1];
+//$ask = "Please only translate this text to the lang code language '$lang':" . $ask;
+
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $ollamaEndpoint);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+
+
+
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+    //'model' => "llama3.2",
+    //'model' => "cogito-8B",
+    'model' => getenv()["SHELIX_OLLAMA_MODEL"],
+    'system' => getenv()["SHELIX_OLLAMA_SYSTEM"],
+    'prompt' => $ask,
+    'stream' => true,
+    'think' => false
+]));
+
+
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+
+curl_setopt($ch, CURLOPT_WRITEFUNCTION, function ($curl, $data) {
+    // echo $data;
+      echo json_decode($data, true)["response"]; 
+
+    //echo json_encode(["model" => "llama3.1:8b", "created_at" => "2025-01-20T01:42:32.971805554Z", "response" => " $data","done" => false]);
+    // SUCCESS !
+    if (ob_get_level() > 0) {
+        ob_flush();
+    }
+    flush();
+    return strlen($data);
+});
+
+curl_exec($ch);
+
+if (curl_errno($ch)) {
+     http_response_code(500);
+     echo json_encode(["error" => curl_error($ch)]);
+}
+
+curl_close($ch);
+
