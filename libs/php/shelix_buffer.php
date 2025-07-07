@@ -195,7 +195,7 @@ class Buffer extends Nox
             /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
             $c = preg_replace('/[^[:print:]\n]/u', "", $c);
             /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
-
+             // var_dump($c);sleep(3);
 
             /* Up arrow */
             if ($c === "[A") {
@@ -290,8 +290,8 @@ class Buffer extends Nox
             }
 
             
-            /* Q/q or Escape */
-            if ($c === "q" || $c === "Q" || $c === "") {
+            /* Q/q or (removed)Escape:   || $c === "" */
+            if ($c === "q" || $c === "Q") {
                 echo "\033c";
                 shutdown();
             }
@@ -334,21 +334,21 @@ class Buffer extends Nox
                     trim(explode(" ", $ls[$Z], 2)[1]);
                 if (!is_file($insert)) {
                     $insert = trim(substr(Buffer::$LSCACHE[$Z], 4));
-                    // $insert = trim(explode(" ", $ls[$Z], 2)[1]);
                     exec(
-                        "hx_insert '$insert' flagtext </dev/null 2>> shelix.logs 2>&1 &"
+                        "hx_insert \"$insert\" text </dev/null 2&1>> \$SHELIXPATH/shelix.logs 2>&1 &"
                     );
                 } else {
                     exec(
-                        "hx_insert '$insert' </dev/null 2>> shelix.logs 2>&1 &"
+                        "hx_insert \"$insert\" </dev/null 2>> \$SHELIXPATH/shelix.logs 2>&1 &"
                     );
                 }
             }
 
-            /* Ctrl + Shift + right arrow
+            /* Ctrl + Shift + right arrow "[1;6C" <= BUG
+               Ctrl + Alt + right arrow <= PASS
                Open as file
             */
-            if ($c === "[1;6C") {
+            if ($c === "[1;7C") {
                 if (Buffer::$FORCECWD === true) {
                     Buffer::$EXECUTIONPATH = system("cd - && echo \$PWD");
                 }
@@ -357,7 +357,8 @@ class Buffer extends Nox
                     "/" .
                     trim(substr(Buffer::$LSCACHE[$Z], 4));
                     // trim(explode(" ", $ls[$Z], 2)[1]);
-                exec("open_file '$insfile' </dev/null 2>> shelix.logs 2>&1 &");
+                // exec("open_file '$insfile' </dev/null 2>> shelix.logs 2>&1 &");
+                exec("open_file \"$insfile\" </dev/null 2>> \$SHELIXPATH/shelix.logs 2>&1 &");
             }
 
 

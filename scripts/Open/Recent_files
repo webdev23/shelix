@@ -19,7 +19,7 @@
 # ╚-----------------------------------------------------------------------╝
 
 
-function recents() {
+function rg_most_recents() {
   
   list=$(rg --files --stats "$1" \
     | xargs -d "\n" stat --format="%Y %n" 2>/dev/null \
@@ -31,7 +31,7 @@ function recents() {
 
   json=$(echo "$list" | jq -R -s 'split("\n") | map(select(. != ""))')
 
-  echo $json
+  echo "$json"
 }
 
 # Alternatively, retrieves the original path of this session in the logs
@@ -46,5 +46,5 @@ if [ -n "$1" ]; then
   FILE="$TARGET/$1"
   open_file "$FILE"    
 else
-  recents "$TARGET"
+  rg_most_recents "$TARGET" && tmux popup -C
 fi

@@ -24,3 +24,6 @@ export SHELIX_OLLAMA_MODEL="cogito-8B"
 export SHELIX_OLLAMA_SYSTEM="Answer concise code, limit comments"
 
 export PATH=$PATH:"$SHELIXPATH"/libs/:$PATH
+
+
+export MOST_EDITOR='hx %s'

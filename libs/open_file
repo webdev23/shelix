@@ -27,14 +27,14 @@ openfile(){
   MARKED=$(tmux display -p -t '~' '#D')
     if [ -n "$MARKED" ]; then
       tmux send-keys -t '~' Escape
-      tmux send-keys -t '~' ":o $FILE" Enter
+      tmux send-keys -t '~' ":o $1" Enter
       exit  
   fi
 
   # Check if ran from inside a popup
   if [ -z "$TMUX_PANE" ]; then
     tmux send-keys Escape
-    tmux send-keys ":o $FILE" ENTER
+    tmux send-keys ":o $1" ENTER
     exit
   fi
 
@@ -53,9 +53,9 @@ openfile(){
   hx=$(to_first_hx)
   # notify "$FILE" 0.5
   tmux send-keys -t "$hx" Escape
-  tmux send-keys -t "$hx" ":o $FILE" ENTER
+  tmux send-keys -t "$hx" ":o $1" ENTER
   tmux selectp -t "$hx"
 }
 
-openfile
+openfile "$FILE"
 

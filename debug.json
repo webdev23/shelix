@@ -1,0 +1,28 @@
+[
+    {
+        "microdate": "2025-07-06 21:49:55.504200",
+        "memory_bits": 699824,
+        "files": [
+            "\/home\/k33st\/DEV\/WIKITERM\/wiki",
+            "\/home\/k33st\/DEV\/WIKITERM\/Dumper.php",
+            "\/home\/k33st\/DEV\/WIKITERM\/libs\/wikiterm_utils.php"
+        ],
+        "stack_trace": [
+            {
+                "file": "\/home\/k33st\/DEV\/WIKITERM\/wiki",
+                "line": 692,
+                "function": "var",
+                "class": "Dump",
+                "type": "::",
+                "args": [
+                    [
+                        "Wikipedia",
+                        "enwiki",
+                        "https:\/\/en.wikipedia.org\/wiki\/Main_Page"
+                    ]
+                ]
+            }
+        ],
+        "var_dump": "array(3) {\n  [0]=>\n  string(9) \"Wikipedia\"\n  [1]=>\n  string(6) \"enwiki\"\n  [2]=>\n  string(39) \"https:\/\/en.wikipedia.org\/wiki\/Main_Page\"\n}\n"
+    }
+]

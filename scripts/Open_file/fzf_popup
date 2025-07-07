@@ -19,15 +19,13 @@
 # ╚-----------------------------------------------------------------------╝
 
 
-# Dispatch or choose file to all open hx in the window
+of_fzf(){
+  local TEMP=$(mktemp)
+  # Select file using the ranger explorer
+  tmux popup -h 80% -w 80% -E "fzf > $TEMP"  
+  open_file $(cat $TEMP)
+}
 
-if [ -n "$1" ];then
-  # FILE="${1}"
-  open_file_all_hx "${1}"
-  exit
-else
-  yazi --chooser-file /tmp/yazi_selection.txt
-  open_file_all_hx "$(cat /tmp/yazi_selection.txt)"
-  tmux popup -C 
-fi
-  
+of_fzf
+
+

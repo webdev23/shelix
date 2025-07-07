@@ -35,24 +35,3 @@ if [ $iseditor == "" ]; then
 else
  echo 1
 fi
-
-
-
-
-
-# BUG 
-# running=($(tmux list-panes -F '#{pane_current_command}'))
-
-# iseditor="0"
-# for index in "${!running[@]}"; do
-#   if [ "${running[$index]}" = "hx" ]; then
-#     iseditor="1" 
-#   fi
-# done
-
-
-# if [ $iseditor == "0" ];then
-#   echo 0
-# else
-#   echo 1
-# fi 

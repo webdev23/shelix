@@ -18,16 +18,10 @@
 # ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
 # ╚-----------------------------------------------------------------------╝
 
+of_fzf(){
+  pop "open_file $(fzf)"
+}
 
-# Dispatch or choose file to all open hx in the window
+of_fzf
 
-if [ -n "$1" ];then
-  # FILE="${1}"
-  open_file_all_hx "${1}"
-  exit
-else
-  yazi --chooser-file /tmp/yazi_selection.txt
-  open_file_all_hx "$(cat /tmp/yazi_selection.txt)"
-  tmux popup -C 
-fi
-  
+

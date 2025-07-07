@@ -22,13 +22,16 @@
 # Works only on a marked pane to make sure we insert on the good place
 # Insert in a regular shell or into Helix
 
-# We may want to insert a whole file content
+running=($(tmux list-panes -F "#{pane_title}"))
+
+# We may want to insert a whole file content ($1 = path)
 if [ $(has_mark) == "1" ] && [ -z "$2" ];then
-  running=($(tmux selectp -t '~' && tmux display -p -F '#{pane_current_command}'))
-  if [ $running == "hx" ];then
-    tmux send -t '~' Escape && tmux send -t '~' ":insert-output cat $1" ; sleep 0.2 ; tmux send -t '~' Enter
-  else
-    tmux send -t '~' "$(cat $1)"
+  # if [ $running == "hx" ];then
+  # if [[ "${running[$index]}" == *"hx"* ]]; then
+  if [ "$(tmux display-message -p -t '~' '#{pane_title}')" == "hx" ];then
+    tmux send -t '~' Escape && tmux send -t '~' ":insert-output cat \"$1\"" ; sleep 0.2 ; tmux send -t '~' Enter
+  # else
+    # tmux send -t '~' "$(cat $1)"
   fi
   
 else
@@ -36,13 +39,13 @@ else
 fi
 
 
-# We flag $2 to insert as text
+# We flag $2 to insert as text ($1 = text)
 if [ $(has_mark) == "1" ] && [ -n "$2" ];then
-  running=($(tmux selectp -t '~' && tmux display -p -F '#{pane_current_command}'))
-  if [ $running == "hx" ];then
-    tmux send -t '~' Escape && sleep 0.5 && tmux send -t '~' "i" ; sleep 0.2 ; tmux send -t '~' "$1"
-  else
-    tmux send -t '~' "$(echo $1)"
+  # if [[ "${running[$index]}" == *"hx"* ]]; then
+  if [ "$(tmux display-message -p -t '~' '#{pane_title}')" == "hx" ];then
+    tmux send -t '~' Escape && sleep 0.5 && tmux send -t '~' ":insert-output echo \"$1\"" Enter
+  # else
+  #   tmux send -t '~' "$1"
   fi
   
 else
