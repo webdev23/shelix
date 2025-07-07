@@ -20,20 +20,26 @@
 
 #THEME="eighties.dark"
 
-export SHELIXPATH=$(dirname $(readlink -f $0))
+export SHELIXPATH="$(dirname $(readlink -f $0))"
 
 export PATH=$PATH:"$SHELIXPATH"/libs/:$PATH
 
-source $SHELIXPATH/env/utils.sh
+source "$SHELIXPATH"/env/utils.sh
 
-source $SHELIXPATH/env/shelix.conf.sh
+source "$SHELIXPATH"/env/shelix.conf.sh
+
+# Convert the config to json format onload
+"$SHELIXPATH"/libs/php/toml_parser.php "$SHELIXPATH"/env/shelix.conf.toml > "$SHELIXPATH"/env/.conf.json
+
+echo "Reading config file \"$SHELIXPATH\"/env/shelix.conf.toml"
+# exit
 
 USESESSION="$1"
 
 logs() {
     local message=$1
-    echo "$(date)" >> $SHELIXPATH/shelix.logs  
-    echo $message >> $SHELIXPATH/shelix.logs    
+    date >> "$SHELIXPATH"/shelix.logs  
+    echo "$message" >> "$SHELIXPATH"/shelix.logs    
 }
 
 
@@ -138,13 +144,17 @@ while [[ $# -gt 0 ]]; do
             fi
             shift 2
             ;;
-        --theme) # Adding the new condition for --theme
+        --theme) # Specify --theme
             if [[ -n $2 && $2 != -* ]]; then
                 SHELIX_THEME="$2"
             else
                 echo "Error: Missing or invalid value for --theme parameter."
                 exit 1
             fi
+            shift 2
+            ;;
+        --reload) # Reload config --reload
+                reloadConfig && exit
             shift 2
             ;;
         --help) # Adding the new condition for --theme

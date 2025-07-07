@@ -1,0 +1,48 @@
+#!/bin/bash
+
+MESSAGE="[-]"
+
+HOURLY="$(cat $SHELIXPATH/env/.conf.json | jq --raw-output .scheduler.hourly)"
+DAILY="$(cat $SHELIXPATH/env/.conf.json | jq --raw-output .scheduler.daily)"
+WEEKLY="$(cat $SHELIXPATH/env/.conf.json | jq --raw-output .scheduler.weekly)"
+MONTHLY="$(cat $SHELIXPATH/env/.conf.json | jq --raw-output .scheduler.monthly)"
+
+
+run_hourly() {
+    $("$HOURLY")
+    notify "[Scheduler] Hourly job dispatched"
+    MESSAGE="[H]" 
+}
+
+run_daily() {
+    $("$DAILY") 
+}
+
+run_weekly() {
+    $("$WEEKLY")
+}
+
+run_monthly() {
+    $("$MONTHLY")
+}
+
+
+# Get current time components
+HOUR=$(date +%H)
+MIN=$(date +%M)
+DAY=$(date +%d)
+WEEKDAY=$(date +%u)
+
+# Run hourly tasks at minute 0 of every hour
+[ "$MIN" = "00" ] && run_hourly
+
+# Run daily tasks at midnight (00:00)
+[ "$HOUR" = "00" ] && [ "$MIN" = "00" ] && run_daily
+
+# Run weekly tasks on the monday at midnight
+[ "$WEEKDAY" = "01" ] && [ "$HOUR" = "00" ] && [ "$MIN" = "00" ] && run_weekly
+
+# Run monthly tasks on the 1st of each month at midnight
+[ "$DAY" = "01" ] && [ "$HOUR" = "00" ] && [ "$MIN" = "00" ] && run_monthly
+
+echo "$MESSAGE"

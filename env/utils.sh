@@ -57,6 +57,16 @@ HELP="
 #     return 1  # Parameter not found
 # }
 
+reloadConfig() {
+  source "$SHELIXPATH"/env/shelix.conf.sh
+
+  "$SHELIXPATH"/libs/php/toml_parser.php "$SHELIXPATH"/env/shelix.conf.toml > "$SHELIXPATH"/env/.conf.json
+  sleep 1
+  "$SHELIXPATH"/libs/tmux_theme "$SHELIXPATH/themes/$(cat $SHELIXPATH/env/.conf.json | jq --raw-output .ui.theme).json"
+  
+  echo "Config reloaded"
+}
+
 
 renameEditorsPanes() {
   running=($(tmux list-panes -F '#{pane_current_command}'))
@@ -78,8 +88,6 @@ mountPanes() {
   done
 
 }
-
-
 
 multibox() {
     local text="$1"

@@ -18,4 +18,9 @@
 # ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
 # ╚-----------------------------------------------------------------------╝
 
-echo $(( $(cat /sys/class/thermal/thermal_zone5/temp) / 1000 ))
+
+SENSOR="$(cat $SHELIXPATH/env/.conf.json | jq --raw-output .hardware.tempsensor)"
+
+
+
+echo $(( $(cat /sys/class/thermal/thermal_zone2/temp) / 1000 ))

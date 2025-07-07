@@ -18,13 +18,14 @@
 # ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
 # ╚-----------------------------------------------------------------------╝
 
-NETCARD="wlx00c0ca82d1f2" # Pass in your network card (see ifconfig)
+NETCARD="$(cat $SHELIXPATH/env/.conf.json | jq --raw-output .hardware.netcard)"
+
+# Debugging
+# echo $NETCARD
+# exit
+# NETCARD="wlx00c0ca82d1f2" # Pass in your network card (see ifconfig or ip route)
+# echo $NETCARD
+# exit
 
 awk '{if(l1){printf "%.2fKB/s ⇵ %.2fKB/s\n", ($2-l1)/1024, ($10-l2)/1024} else{l1=$2; l2=$10;}}' \
-    <(grep $NETCARD /proc/net/dev) <(sleep 2; grep $NETCARD /proc/net/dev)
-
-
-# awk '{if(l1){printf "%.2fMB/s %.2fMB/s\n", ($2-l1)/(1024*1024), ($10-l2)/(1024*1024)} else{l1=$2; l2=$10;}}' \
-        # <(grep wlx00c0ca82d1f2 /proc/net/dev) <(sleep 1; grep wlx00c0ca82d1f2 /proc/net/dev)
-
-
+    <(grep "$NETCARD" /proc/net/dev) <(sleep 2; grep "$NETCARD" /proc/net/dev)

@@ -192,7 +192,7 @@ if [ $target == "-g" ];then
     tmux set status-style "bg=$a,fg=$foreground,none"
     tmux set status-left-length "200"
     tmux set status-right-length "200"
-    tmux set status-right "#[bg=$c,fg=$background] #(git_stat) #[bg=$d,fg=$background] #(cpu_usage)% #[bg=$e,fg=$background,dim] #(cpu_temp)° #[bg=$h,fg=$background] #(netspeed) #[bg=$c,fg=$background,bold] %H:%M "
+    tmux set status-right "#[bg=$c,fg=$background] #(git_stat) #[bg=$d,fg=$background] #(cpu_usage)% #[bg=$e,fg=$background,dim] #(cpu_temp)° #[bg=$h,fg=$background,bold] #(netspeed) #[bg=$d,fg=$a]#(scheduler)#[bg=$c,fg=$background,bold] %H:%M "
     tmux set status-left "#[bg=$c,fg=$background]  #S  "
   done
 else 
@@ -200,7 +200,7 @@ else
   tmux set $target status-style "bg=$a,fg=$foreground,none"
   tmux set $target status-left-length "200"
   tmux set $target status-right-length "200"
-  tmux set $target status-right "#[bg=$c,fg=$background] #(git_stat) #[bg=$d,fg=$background] #(cpu_usage)% #[bg=$e,fg=$background,dim] #(cpu_temp)° #[bg=$h,fg=$background] #(netspeed) #[bg=$c,fg=$background,bold] %H:%M "
+  tmux set $target status-right "#[bg=$c,fg=$background] #(git_stat) #[bg=$d,fg=$background] #(cpu_usage)% #[bg=$e,fg=$background,dim] #(cpu_temp)° #[bg=$h,fg=$background,bold] #(netspeed) #[bg=$d,fg=$a]#(scheduler)#[bg=$c,fg=$background,bold] %H:%M "
   tmux set $target status-left "#[bg=$c,fg=$background]  #S  "
 fi
 

@@ -1,0 +1,42 @@
+# [database]
+# enabled = true
+# ports = [ 8000, 8001, 8002 ]
+# data = [ ["delta", "phi"], [3.14] ]
+# temp_targets = { cpu = 79.5, case = 72.0 }
+
+
+[ui]
+theme = "Muse"
+daylight_theme = "codeschool_light"
+
+
+# Use 24H time
+morning = "8" 
+evening = "20" 
+
+layout= "base"
+
+
+[helix]
+theme = "amberwood"
+daylight_theme = "adwaita-light"
+
+[icons]
+dir = "📁"
+program = "🔷"
+file = "☰"
+link = "💾"
+
+# Used in the taskbar
+[hardware]
+netcard = "wlx00c0ca82d1f2"
+tempsensor = "/sys/class/thermal/thermal_zone0/temp"
+openrgb = true
+cpufreq = "/proc/stat"
+
+# Pass in commands to be ran
+[scheduler]
+daily = "ls -a > $SHELIXPATH/test_hourly_ls.txt"
+hourly =""
+weekly = ""
+monthly = ""

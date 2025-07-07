@@ -1,0 +1,31 @@
+{
+    "ui": {
+        "theme": "Muse",
+        "daylight_theme": "codeschool_light",
+        "morning": "8",
+        "evening": "20",
+        "layout": "base"
+    },
+    "helix": {
+        "theme": "amberwood",
+        "daylight_theme": "adwaita-light"
+    },
+    "icons": {
+        "dir": "\ud83d\udcc1",
+        "program": "\ud83d\udd37",
+        "file": "\u2630",
+        "link": "\ud83d\udcbe"
+    },
+    "hardware": {
+        "netcard": "wlx00c0ca82d1f2",
+        "tempsensor": "/sys/class/thermal/thermal_zone0/temp",
+        "openrgb": true,
+        "cpufreq": "/proc/stat"
+    },
+    "scheduler": {
+        "daily": "ls -a > $SHELIXPATH/test_hourly_ls.txt",
+        "hourly": "",
+        "weekly": "",
+        "monthly": ""
+    }
+}
