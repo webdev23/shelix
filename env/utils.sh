@@ -2,7 +2,7 @@
 # ╔-----------------------------------------------------------------------╗
 # ║                                                                       ║
 # ║ This file is part of the Shelix IDE.                                  ║
-# ║ Copyright (C) 2024 NVRM webdev23 https://github.com/webdev23          ║
+# ║ Copyright (C) 2025 NVRM webdev23 https://github.com/webdev23          ║
 # ║                                                                       ║
 # ║ This program is free software: you can redistribute it and/or modify  ║
 # ║ it under the terms of the GNU General Public License as published by  ║
@@ -210,7 +210,7 @@ head80="
 "
 
 GNUV3="
-    Shelix IDE Copyright (C) 2024 NVRM 
+    Shelix IDE Copyright (C) 2025 NVRM 
     This program comes with ABSOLUTELY NO WARRANTY; for details type show w.
     This is free software, and you are welcome to redistribute it
     under certain conditions; type show c for details.
