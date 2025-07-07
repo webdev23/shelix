@@ -116,8 +116,8 @@ bind-key X set-window-option synchronize-panes\; display-message "synchronize-pa
 unbind Space
 # bind Space popup -w 50% -h 50% -E "cd $SHELIXPATH && ./main"
 # bind -n M-Space popup -w 50% -h 50% -E "cd $SHELIXPATH && ./main"
-bind Space popup -w 50% -h 50% -E "shelix"
-bind -n M-Space popup -w 50% -h 50% -E "shelix"
+bind Space popup -x 0 -y 0 -w 50% -h 50% -E "shelix"
+bind -n M-Space popup -x P -y P -w 20% -h 30% -E "shelix"
 
 #################################
 # Tmux menu with main functions #
