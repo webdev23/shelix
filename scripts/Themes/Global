@@ -42,7 +42,7 @@ if (isset($argv[1])) {
 
     $theme = "$SHELIXPATH/themes/$argv[1]";
 
-    system("tmux_theme '$theme' --server");
+    system("dispatch_to_sessions \"tmux_theme '$theme'\"");
 } else {
 
     echo json_encode(array_map('basename', glob("$SHELIXPATH/themes/*.json")));

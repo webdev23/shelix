@@ -23,6 +23,6 @@ if [ $# -eq 0 ]; then
   # Pushing a rocket force the (theme) selection directly.
   ls ~/.config/helix/runtime/themes/  | jq -R -s -c 'split("\n")[:-1] | map( split(".") | .[0] ) + ["🚀"]'
 else
+  # sleep 1 
   echo ":theme $@" | dispatch_all_hx
-  sleep 0.3 
 fi

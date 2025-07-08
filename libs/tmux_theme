@@ -44,7 +44,7 @@ if [ -n "$1" ]; then
 fi
 # echo $theme
 
-# By default, apply theme to the session
+# By default, apply to all sessions
 default_target="-g" 
 target=${2:-$default_target}
 
@@ -282,11 +282,11 @@ tmux set-hook -g client-resized[1] 'run-shell "tmux resize-pane -t 2 -y 6"'  # B
 # -------------------------------------------------------------------- #
 
 
-################################
-# Repaint panes in all sessions#
-################################
-for pane in $(tmux list-panes -aF "#{pane_id}"); do
-  tmux select-pane -t ${pane} -P "bg=$dim_bg,fg=$dim_fg"
+########################################
+# Repaint panes in all session windows #
+########################################
+for pane in $(tmux list-panes -F "#S.#P"); do
+  tmux select-pane -t "${pane}" -P "bg=$dim_bg,fg=$dim_fg"
 done
 
 

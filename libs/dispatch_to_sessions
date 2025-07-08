@@ -18,40 +18,8 @@
 # ║ along with this program.  If not, see <http://www.gnu.org/licenses/>. ║
 # ╚-----------------------------------------------------------------------╝
 
-# Pass a command to STDIN to dispatch to all hx instances in the window
-# ":theme "
 
- # kill pane with flag --exit
+# Run $1 command in all sessions, in a separate pane, and close afterward
 
-STDIN=$(cat -)
+tmux list-sessions -F "#{session_name}" | xargs -I SESSION tmux split-window -l 3 -t SESSION:0 "$1"
 
-# List of pane titles
-# running=($(tmux list-panes -aF "#S:#I.#P #{pane_title}"))
-
-# All normal mode
-tmux list-panes -aF "#S:#I.#P #{pane_title}" | \
-grep ' hx' | \
-awk '{print $1}' | \
-xargs -I TARGET tmux send-keys -t TARGET Escape
-
-#Nb: Using two loops is safer here to avoid writing in the buffer
-sleep 0.2
-
-# Keys
-tmux list-panes -aF "#S:#I.#P #{pane_title}" | \
-grep ' hx' | \
-awk '{print $1}' | \
-xargs -I TARGET tmux send-keys -t TARGET "$STDIN" C-m
-
-
-# # Loop through all pane titles
-# for index in "${!running[@]}"; do
-#   # Checkge
-#  if the title contains the string "hx"
-#   if [[ "${running[$index]}" == *"hx"* ]]; then
-#     tmux send-keys -t "$index" Escape
-#     # On the lower limit, text might get introduced in the buffer ...
-#     sleep 0.08 # 80ms Depends the machine env, can be reduced or even deleted
-#     tmux send-keys -t "$index" "$STDIN" ENTER
-#   fi
-# done

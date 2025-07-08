@@ -33,16 +33,18 @@ MIN=$(date +%M)
 DAY=$(date +%d)
 WEEKDAY=$(date +%u)
 
+SECOND=$(date +%S) # To avoid multiple calls
+
 # Run hourly tasks at minute 0 of every hour
-[ "$MIN" = "00" ] && run_hourly
+[ "$MIN" = "00" ] && [ "$SECOND" = "00" ] && run_hourly
 
 # Run daily tasks at midnight (00:00)
-[ "$HOUR" = "00" ] && [ "$MIN" = "00" ] && run_daily
+[ "$HOUR" = "00" ] && [ "$MIN" = "00" ] && [ "$SECOND" = "00" ] && run_daily
 
 # Run weekly tasks on the monday at midnight
-[ "$WEEKDAY" = "01" ] && [ "$HOUR" = "00" ] && [ "$MIN" = "00" ] && run_weekly
+[ "$WEEKDAY" = "01" ] && [ "$HOUR" = "00" ] && [ "$MIN" = "00" ] && [ "$SECOND" = "00" ] && run_weekly
 
 # Run monthly tasks on the 1st of each month at midnight
-[ "$DAY" = "01" ] && [ "$HOUR" = "00" ] && [ "$MIN" = "00" ] && run_monthly
+[ "$DAY" = "01" ] && [ "$HOUR" = "00" ] && [ "$MIN" = "00" ] && [ "$SECOND" = "00" ] && run_monthly
 
 echo "$MESSAGE"

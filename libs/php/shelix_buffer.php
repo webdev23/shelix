@@ -139,6 +139,7 @@ class Buffer extends Nox
         $H = Nox::$H;
         $FOOT = 2; // Footer height (lines)
 
+
         while ($c = @fread(STDIN, 16)) {
             Buffer::$SCROLLING[2] = time();
             $OUT = "";
@@ -497,7 +498,15 @@ class Buffer extends Nox
 
         $ctrl = false; // Ctrl key
 
-        usleep(10000);
+        // usleep(10000);
+
+        // More throttling when direct rocket mode is selected
+        // Disallow flood for long keypress
+        if (Buffer::$EXECUTESELECTION) {
+          usleep(90000); // Machine dependent
+        } else {
+            usleep(10000);
+        }
 
         if (Buffer::$FLAGEXIT === 1) {
             goto SELEX;
